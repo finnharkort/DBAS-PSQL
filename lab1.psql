@@ -16,7 +16,8 @@ CREATE TABLE post(
     CONSTRAINT postID_non_negative
         CHECK (postID >= 0),
     CONSTRAINT valid_tags
-        CHECK (tag <@ ARRAY['crypto','studying','question', 'social'])
+        CHECK (tag IS NOT NULL AND ARRAY_LENGTH(tag, 1) > 0 AND 
+               tag <@ ARRAY['crypto', 'studying', 'question', 'social'])
 );
 
 CREATE TABLE textPost(
