@@ -1,7 +1,6 @@
 CREATE TABLE post(
     postID INT NOT NULL PRIMARY KEY,
-    
-)
+);
 
 CREATE TABLE sm_user(
     userID INT NOT NULL PRIMARY KEY,
