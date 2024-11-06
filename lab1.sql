@@ -10,7 +10,7 @@ CREATE TABLE Post(
     postID INT PRIMARY KEY,
     userID INT NOT NULL,
     title VARCHAR(255),
-    date Date NOT NULL,
+    date DATE NOT NULL,
     place VARCHAR(255),
     tag VARCHAR(255)[],
     CONSTRAINT fk_sm_user
