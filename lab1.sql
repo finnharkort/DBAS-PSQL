@@ -24,7 +24,7 @@ CREATE TABLE textPost(
     textContent VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
-            REFERENCES Post (postID)
+            REFERENCES post (postID)
 );
 
 CREATE TABLE imagePost(
@@ -33,7 +33,7 @@ CREATE TABLE imagePost(
     filter VARCHAR(255)[],
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
-            REFERENCES Post (postID)
+            REFERENCES post (postID)
 );
 
 CREATE TABLE videoPost(
@@ -42,7 +42,7 @@ CREATE TABLE videoPost(
     codec VARCHAR(255),
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
-            REFERENCES Post (postID)
+            REFERENCES post (postID)
 );
 
 CREATE TABLE likes(
@@ -52,7 +52,7 @@ CREATE TABLE likes(
     timestamp VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
-            REFERENCES Post (postID),
+            REFERENCES post (postID),
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
             REFERENCES users (userID)
