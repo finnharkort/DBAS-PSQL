@@ -21,7 +21,7 @@ CREATE TABLE post(
 
 CREATE TABLE textPost(
     postID INT,
-    textContent VARCHAR(255) NOT NULL
+    textContent VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
             REFERENCES Post (postID)
@@ -66,7 +66,7 @@ CREATE TABLE friendship(
     CONSTRAINT fk_users
         FOREIGN KEY (userID1)
             REFERENCES users (userID),
-    CONSTRAINT fk_users
+    CONSTRAINT fk_users2
         FOREIGN KEY (userID2)
             REFERENCES users (userID)
 );
@@ -94,7 +94,7 @@ CREATE TABLE attendee(
             REFERENCES users (userID),
     CONSTRAINT fk_event
         FOREIGN KEY (eventID)
-            REFERENCES Event (eventID)
+            REFERENCES events (eventID)
 );
 
 CREATE TABLE subscription(
