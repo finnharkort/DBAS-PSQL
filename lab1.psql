@@ -1,4 +1,0 @@
-CREATE TABLE User(
-    userID INT NOT NULL PRIMARY KEY,
-    fullName STRING NOT NULL
-);
