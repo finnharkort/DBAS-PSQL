@@ -14,7 +14,7 @@ CREATE TABLE post(
         FOREIGN KEY (userID)
             REFERENCES users (userID),
     CONSTRAINT postID_non_negative
-        CHECK (postID >= 0)
+        CHECK (postID >= 0),
     CONSTRAINT valid_tags
         CHECK (tag <@ ARRAY['crypto','studying','question', 'social'])
 );
