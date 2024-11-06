@@ -43,7 +43,7 @@ CREATE TABLE videoPost(
             REFERENCES Post (postID)
 );
 
-CREATE TABLE Likes(
+CREATE TABLE likes(
     postID INT,
     userID INT,
     PRIMARY KEY (postID, userID),
@@ -69,7 +69,7 @@ CREATE TABLE friendship(
             REFERENCES users (userID)
 );
 
-CREATE TABLE Events(
+CREATE TABLE events(
     eventID INT PRIMARY KEY,
     userID INT NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE Events(
             REFERENCES users (userID)
 );
 
-CREATE TABLE Attendee(
+CREATE TABLE attendee(
     eventID INT,
     userID INT,
     PRIMARY KEY (eventID, userID),
@@ -93,7 +93,7 @@ CREATE TABLE Attendee(
             REFERENCES Event (eventID)
 );
 
-CREATE TABLE Subscription(
+CREATE TABLE subscription(
     subscriptionID INT PRIMARY KEY,
     userID INT NOT NULL,
     dateOfPayment DATE NOT NULL,
