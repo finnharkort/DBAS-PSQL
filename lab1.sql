@@ -88,8 +88,8 @@ CREATE TABLE Event(
 );
 
 CREATE TABLE Attendee(
-    eventID INT PRIMARY KEY,
-    userID INT PRIMARY KEY,
+    eventID INT,
+    userID INT,
     PRIMARY KEY (eventID, userID),
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
