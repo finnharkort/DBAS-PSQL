@@ -1,5 +1,3 @@
-
-
 CREATE TABLE users(
     userID INT PRIMARY KEY,
     fullName VARCHAR(255)
@@ -14,7 +12,11 @@ CREATE TABLE post(
     tag VARCHAR(255)[],
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
-            REFERENCES users (userID)
+            REFERENCES users (userID),
+    CONSTRAINT postID_non_negative
+        CHECK (postID >= 0)
+    CONSTRAINT valid_tags
+        CHECK (tag <@ ARRAY['crypto','studying','question', 'social'])
 );
 
 CREATE TABLE textPost(
@@ -78,7 +80,9 @@ CREATE TABLE events(
     endDate DATE NOT NULL,
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
-            REFERENCES users (userID)
+            REFERENCES users (userID),
+    CONSTRAINT correct_order_dates
+        CHECK (StartDate <= EndDate)
 );
 
 CREATE TABLE attendee(
