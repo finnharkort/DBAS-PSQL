@@ -1,10 +1,19 @@
-DROP TABLE IF EXISTS sm_user;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS textPost;
 DROP TABLE IF EXISTS TextPost;
 DROP TABLE IF EXISTS Post;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS imagePost;
 DROP TABLE IF EXISTS ImagePost;
 DROP TABLE IF EXISTS videoPost;
+DROP TABLE IF EXISTS VideoPost;
+DROP TABLE IF EXISTS Likes;
+DROP TABLE IF EXISTS likes;
+DROP TABLE IF EXISTS friendship;
+DROP TABLE IF EXISTS Event;
+DROP TABLE IF EXISTS Attendee;
+DROP TABLE IF EXISTS Subscription;
 
 CREATE TABLE users(
     userID INT PRIMARY KEY,
@@ -24,7 +33,7 @@ CREATE TABLE post(
 );
 
 CREATE TABLE textPost(
-    postID INT PRIMARY KEY,
+    postID INT,
     textContent VARCHAR(255) NOT NULL
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
@@ -32,7 +41,7 @@ CREATE TABLE textPost(
 );
 
 CREATE TABLE imagePost(
-    postID INT PRIMARY KEY,
+    postID INT,
     imageURL VARCHAR(255) NOT NULL,
     filter VARCHAR(255)[],
     CONSTRAINT fk_post
@@ -41,7 +50,7 @@ CREATE TABLE imagePost(
 );
 
 CREATE TABLE videoPost(
-    postID INT PRIMARY KEY,
+    postID INT,
     videoURL VARCHAR(255) NOT NULL,
     codec VARCHAR(255),
     CONSTRAINT fk_post
@@ -49,9 +58,9 @@ CREATE TABLE videoPost(
             REFERENCES Post (postID)
 );
 
-CREATE TABLE like(
-    postID INT PRIMARY KEY,
-    userID INT PRIMARY KEY,
+CREATE TABLE Likes(
+    postID INT,
+    userID INT,
     PRIMARY KEY (postID, userID),
     timestamp VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
@@ -63,8 +72,8 @@ CREATE TABLE like(
 );
 
 CREATE TABLE friendship(
-    userID1 INT PRIMARY KEY,
-    userID2 INT PRIMARY KEY,
+    userID1 INT,
+    userID2 INT,
     PRIMARY KEY (userID1, userID2),
     timestamp VARCHAR(255) NOT NULL,
     CONSTRAINT fk_users
@@ -75,7 +84,7 @@ CREATE TABLE friendship(
             REFERENCES users (userID)
 );
 
-CREATE TABLE Event(
+CREATE TABLE Events(
     eventID INT PRIMARY KEY,
     userID INT NOT NULL,
     title VARCHAR(255) NOT NULL,
