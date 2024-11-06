@@ -52,6 +52,7 @@ CREATE TABLE videoPost(
 CREATE TABLE like(
     postID INT PRIMARY KEY,
     userID INT PRIMARY KEY,
+    PRIMARY KEY (postID, userID),
     timestamp VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
@@ -64,6 +65,7 @@ CREATE TABLE like(
 CREATE TABLE friendship(
     userID1 INT PRIMARY KEY,
     userID2 INT PRIMARY KEY,
+    PRIMARY KEY (userID1, userID2),
     timestamp VARCHAR(255) NOT NULL,
     CONSTRAINT fk_users
         FOREIGN KEY (userID1)
@@ -88,6 +90,7 @@ CREATE TABLE Event(
 CREATE TABLE Attendee(
     eventID INT PRIMARY KEY,
     userID INT PRIMARY KEY,
+    PRIMARY KEY (eventID, userID),
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
             REFERENCES users (userID),
@@ -98,7 +101,7 @@ CREATE TABLE Attendee(
 
 CREATE TABLE Subscription(
     subscriptionID INT PRIMARY KEY,
-    userID INT PRIMARY KEY,
+    userID INT NOT NULL,
     dateOfPayment DATE NOT NULL,
     paymentMethod  VARCHAR(255) NOT NULL,
     CONSTRAINT fk_users
