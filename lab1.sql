@@ -64,7 +64,7 @@ CREATE TABLE friendship(
     CONSTRAINT fk_users
         FOREIGN KEY (userID1)
             REFERENCES users (userID),
-    CONSTRAINT fk_users
+    CONSTRAINT fk_users2
         FOREIGN KEY (userID2)
             REFERENCES users (userID)
 );
