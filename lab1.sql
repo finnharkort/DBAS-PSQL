@@ -1,5 +1,3 @@
-
-
 CREATE TABLE users(
     userID INT PRIMARY KEY,
     fullName VARCHAR(255)
@@ -90,7 +88,7 @@ CREATE TABLE attendee(
             REFERENCES users (userID),
     CONSTRAINT fk_event
         FOREIGN KEY (eventID)
-            REFERENCES Event (eventID)
+            REFERENCES events (eventID)
 );
 
 CREATE TABLE subscription(
