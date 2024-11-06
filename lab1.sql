@@ -19,7 +19,7 @@ CREATE TABLE post(
 
 CREATE TABLE textPost(
     postID INT,
-    textContent VARCHAR(255) NOT NULL
+    textContent VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
             REFERENCES Post (postID)
