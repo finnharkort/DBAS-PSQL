@@ -1,8 +1,6 @@
-CREATE TABLE post(
-    postID INT NOT NULL PRIMARY KEY
-);
-
-CREATE TABLE sm_user(
-    userID INT NOT NULL PRIMARY KEY,
-    fullName VARCHAR(255) NOT NULL
+DROP TABLE post;
+DROP TABLE sm_user;
+CREATE TABLE textPost(
+    postID INT NOT NULL PRIMARY KEY,
+    textContent VARCHAR(255) NOT NULL
 );
