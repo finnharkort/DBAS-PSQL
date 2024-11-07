@@ -2,6 +2,10 @@ SELECT fullname FROM users;
 
 SELECT * FROM friendship;
 
+SELECT friendship.userID1, friendship.userID2, users.name
+FROM friendship
+JOIN users ON friendship.userID1 = users.name, friendship.userID2 = users.name;
+
 SELECT * FROM imagePost;
 SELECT * FROM videoPost;
 SELECT * FROM textPost;
