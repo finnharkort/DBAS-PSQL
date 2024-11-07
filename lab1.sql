@@ -79,7 +79,6 @@ CREATE TABLE friendship(
     userID1 INT,
     userID2 INT,
     PRIMARY KEY (userID1, userID2),
-    timestamp VARCHAR(255) NOT NULL,
     CONSTRAINT fk_users
         FOREIGN KEY (userID1)
             REFERENCES users (userID),
