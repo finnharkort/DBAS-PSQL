@@ -20,6 +20,8 @@ INSERT INTO imagepost(postID, userID, title, date, place, imageURL, filter) VALU
 
 INSERT INTO posttag(postID, tag) VALUES (1, 'social');
 INSERT INTO posttag(postID, tag) VALUES (1, 'question');
+INSERT INTO posttag(postID, tag) VALUES (2, 'social');
+INSERT INTO posttag(postID, tag) VALUES (2, 'question');
 INSERT INTO posttag(postID, tag) VALUES (3, 'studying');
 
 INSERT INTO events(eventID, userID, title, place, startDate, endDate) VALUES (1, 1, 'Tentapub', 'Nymble', '2024-10-20', '2024-10-21');
