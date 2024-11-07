@@ -22,7 +22,7 @@ CREATE TABLE postTag(
     tag VARCHAR(255),
     PRIMARY KEY (postID, tag),
     CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
-)
+);
 
 CREATE TABLE textPost(
     postID INT,
