@@ -4,7 +4,7 @@ SELECT * FROM friendship;
 
 SELECT friendship.userID1, friendship.userID2, users.name
 FROM friendship
-JOIN users ON friendship.userID1 = users.name, friendship.userID2 = users.name;
+JOIN users ON friendship.userID1 = users.id, friendship.userID2 = users.id;
 
 SELECT * FROM imagePost;
 SELECT * FROM videoPost;
