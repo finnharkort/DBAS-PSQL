@@ -62,10 +62,7 @@ CREATE TABLE patient(
 CREATE TABLE treating(
     doctorID INT,
     patientID INT,
-    PRIMARY KEY (doctorID, patientID),
-    CONSTRAINT
-        FOREIGN KEY (patientID)
-            REFERENCES patient (ID)
+    PRIMARY KEY (doctorID, patientID)
 );
 
 
