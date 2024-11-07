@@ -68,7 +68,7 @@ CREATE TABLE treating(
             REFERENCES doctor (ID),
     CONSTRAINT
         FOREIGN KEY (patientID)
-            REFERENCES patient (ID),
+            REFERENCES patient (ID)
 );
 
 
