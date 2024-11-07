@@ -9,7 +9,6 @@ CREATE TABLE post(
     title VARCHAR(255),
     date DATE NOT NULL,
     place VARCHAR(255),
-    tag VARCHAR(255)[],
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
             REFERENCES users (userID),
