@@ -8,3 +8,4 @@ GRANT ALL PRIVILEGES ON TABLE subscription TO nikolajg;
 GRANT ALL PRIVILEGES ON TABLE textpost TO nikolajg;
 GRANT ALL PRIVILEGES ON TABLE users TO nikolajg;
 GRANT ALL PRIVILEGES ON TABLE videopost TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE posttag TO nikolajg;

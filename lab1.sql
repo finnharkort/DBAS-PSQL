@@ -14,11 +14,15 @@ CREATE TABLE post(
         FOREIGN KEY (userID)
             REFERENCES users (userID),
     CONSTRAINT postID_non_negative
-        CHECK (postID >= 0),
-    CONSTRAINT valid_tags
-        CHECK (tag IS NOT NULL AND ARRAY_LENGTH(tag, 1) > 0 AND 
-               tag <@ ARRAY['crypto', 'studying', 'question', 'social'])
+        CHECK (postID >= 0)
 );
+
+CREATE TABLE postTag(
+    postID INT,
+    tag VARCHAR(255),
+    PRIMARY KEY (postID, tag),
+    CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
+)
 
 CREATE TABLE textPost(
     postID INT,
