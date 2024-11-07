@@ -15,7 +15,7 @@ CREATE TABLE department(
 
 CREATE TABLE employee(
     ID INT PRIMARY KEY,
-    phoneNr INT NOT NULL,
+    phoneNr VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL
 );
 

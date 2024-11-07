@@ -8,10 +8,10 @@ VALUES
 -- Insert sample data into employee table
 INSERT INTO employee (ID, phoneNr, name) 
 VALUES 
-    (1, 1234567890, 'Dr. John Smith'),  -- Doctor 1
-    (2, 2345678901, 'Dr. Emily Johnson'), -- Doctor 2
-    (3, 3456789012, 'Nurse Sarah Davis'), -- Nurse 1
-    (4, 4567890123, 'Nurse Michael Brown'); -- Nurse 2
+    (1, '1234567890', 'Dr. John Smith'),  -- Doctor 1
+    (2, '2345678901', 'Dr. Emily Johnson'), -- Doctor 2
+    (3, '3456789012', 'Nurse Sarah Davis'), -- Nurse 1
+    (4, '4567890123', 'Nurse Michael Brown'); -- Nurse 2
 
 -- Insert sample data into worksAt table (assigning employees to departments)
 INSERT INTO worksAt (employeeID, departmentName, startDate) 
@@ -30,14 +30,14 @@ VALUES
 -- Insert sample data into doctor table
 INSERT INTO doctor (ID, phoneNr, name, roomNr, specialization) 
 VALUES 
-    (1, 1234567890, 'Dr. John Smith', 101, 'Cardiologist'),
-    (2, 2345678901, 'Dr. Emily Johnson', 102, 'Neurologist');
+    (1, '1234567890', 'Dr. John Smith', 101, 'Cardiologist'),
+    (2, '2345678901', 'Dr. Emily Johnson', 102, 'Neurologist');
 
 -- Insert sample data into nurse table
 INSERT INTO nurse (ID, phoneNr, name, degree) 
 VALUES 
-    (3, 3456789012, 'Nurse Sarah Davis', 'Registered Nurse'),
-    (4, 4567890123, 'Nurse Michael Brown', 'Licensed Practical Nurse');
+    (3, '3456789012', 'Nurse Sarah Davis', 'Registered Nurse'),
+    (4, '4567890123', 'Nurse Michael Brown', 'Licensed Practical Nurse');
 
 -- Insert sample data into patient table
 INSERT INTO patient (ID, diagnosises, name, age) 
