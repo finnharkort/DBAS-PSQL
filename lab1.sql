@@ -37,30 +37,18 @@ CREATE TABLE postTag(
 );
 
 CREATE TABLE textPost(
-    postID INT,
-    textContent VARCHAR(255) NOT NULL,
-    CONSTRAINT fk_post
-        FOREIGN KEY (postID)
-            REFERENCES post (postID)
-);
+    textContent VARCHAR(255) NOT NULL
+) INHERITS (post);
 
 CREATE TABLE imagePost(
-    postID INT,
     imageURL VARCHAR(255) NOT NULL,
-    filter VARCHAR(255)[],
-    CONSTRAINT fk_post
-        FOREIGN KEY (postID)
-            REFERENCES post (postID)
-);
+    filter VARCHAR(255)[]
+) INHERITS (post);
 
 CREATE TABLE videoPost(
-    postID INT,
     videoURL VARCHAR(255) NOT NULL,
-    codec VARCHAR(255),
-    CONSTRAINT fk_post
-        FOREIGN KEY (postID)
-            REFERENCES post (postID)
-);
+    codec VARCHAR(255)
+) INHERITS (post);
 
 CREATE TABLE likes(
     postID INT,
