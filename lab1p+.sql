@@ -1,3 +1,10 @@
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS doctor;
+DROP TABLE IF EXISTS nurse;
+DROP TABLE IF EXISTS patient;
+
+
 CREATE TABLE department(
     departmentName VARCHAR(255) PRIMARY KEY,
     buildingNr INT NOT NULL
@@ -29,3 +36,10 @@ CREATE TABLE patient(
     age INT NOT NULL,
     doctors[] INT
 );
+
+
+GRANT ALL PRIVILEGES ON TABLE department TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE employee TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE doctor TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE nurse TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE patient TO nikolajg;
