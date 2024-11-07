@@ -34,7 +34,7 @@ CREATE TABLE patient(
     diagnosis VARCHAR(255), --Nullable
     name VARCHAR(255) NOT NULL,
     age INT NOT NULL,
-    doctors[] INT
+    doctors INT[]
 );
 
 
