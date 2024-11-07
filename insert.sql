@@ -12,9 +12,9 @@ INSERT INTO friendship (userID1, userID2) VALUES (3,5);
 INSERT INTO friendship (userID1, userID2) VALUES (4,5);
 INSERT INTO friendship (userID1, userID2) VALUES (5,6);
 
-INSERT INTO post(postID, userID, title, date, place, videoURL, codec) VALUES (1, 3, 'På stranden :) Vad gör ni?', '2024-06-24', 'Tofta Beach', 'https://vimeo.com/123456789', 'HEVC');
+INSERT INTO videopost(postID, userID, title, date, place, videoURL, codec) VALUES (1, 3, 'På stranden :) Vad gör ni?', '2024-06-24', 'Tofta Beach', 'https://vimeo.com/123456789', 'HEVC');
 
-INSERT INTO post(postID, userID, title, date, place, textContent) VALUES (2, 1, 'Thoughts on the election', '2024-08-01', NULL, 'What are your thoughts on the election in America? I feel torn.');
+INSERT INTO textpost(postID, userID, title, date, place, textContent) VALUES (2, 1, 'Thoughts on the election', '2024-08-01', NULL, 'What are your thoughts on the election in America? I feel torn.');
 
 INSERT INTO imagepost(postID, userID, title, date, place, imageURL, filter) VALUES (3, 6, 'Pluggar...', '2024-10-15', 'D-Huset', 'https://i.imgur.com/Tv8MzJk.jpg', NULL);
 
