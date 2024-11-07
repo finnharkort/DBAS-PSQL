@@ -21,7 +21,7 @@ CREATE TABLE employee(
 
 CREATE TABLE worksAt(
     employeeID INT,
-    departmentName INT,
+    departmentName VARCHAR(255),
     startDate DATE,
     PRIMARY KEY(employeeID,departmentName),
     CONSTRAINT fk_employee
