@@ -1,3 +1,16 @@
+DROP TABLE IF EXISTS likes;
+DROP TABLE IF EXISTS friendship;
+DROP TABLE IF EXISTS attendee;
+DROP TABLE IF EXISTS subscription;
+DROP TABLE IF EXISTS events;
+DROP TABLE IF EXISTS posttag;
+DROP TABLE IF EXISTS textPost;
+DROP TABLE IF EXISTS imagePost;
+DROP TABLE IF EXISTS videoPost;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS users;
+
+
 CREATE TABLE users(
     userID INT PRIMARY KEY,
     fullName VARCHAR(255)
@@ -110,3 +123,15 @@ CREATE TABLE subscription(
         FOREIGN KEY (userID)
             REFERENCES users (userID)
 );
+
+GRANT ALL PRIVILEGES ON TABLE attendee TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE events TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE friendship TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE imagepost TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE likes TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE post TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE subscription TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE textpost TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE users TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE videopost TO nikolajg;
+GRANT ALL PRIVILEGES ON TABLE posttag TO nikolajg;
