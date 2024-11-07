@@ -27,7 +27,7 @@ CREATE TABLE worksAt(
     CONSTRAINT fk_employee
         FOREIGN KEY (employeeID)
             REFERENCES employee (ID)
-)
+);
 
 CREATE TABLE mentor(
     apprenticeID INT PRIMARY KEY,
@@ -38,7 +38,7 @@ CREATE TABLE mentor(
     CONSTRAINT fk_employee2
         FOREIGN KEY (mentorID)
             REFERENCES employee (ID)
-)
+);
 
 CREATE TABLE doctor(
     roomNr INT NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE treating(
     CONSTRAINT
         FOREIGN KEY (patientID)
             REFERENCES patient (ID),
-)
+);
 
 
 GRANT ALL PRIVILEGES ON TABLE department TO nikolajg;
