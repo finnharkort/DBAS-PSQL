@@ -21,12 +21,15 @@ CREATE TABLE employee(
 
 CREATE TABLE worksAt(
     employeeID INT,
-    departmentName,
+    departmentName INT,
     startDate DATE,
     PRIMARY KEY(employeeID,departmentName),
     CONSTRAINT fk_employee
         FOREIGN KEY (employeeID)
-            REFERENCES employee (ID)
+            REFERENCES employee (ID),
+    CONSTRAINT fk_department
+        FOREIGN KEY (departmentName)
+            REFERENCES department (departmentName)
 );
 
 CREATE TABLE mentor(
