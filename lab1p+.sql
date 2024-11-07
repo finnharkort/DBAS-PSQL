@@ -59,17 +59,17 @@ CREATE TABLE patient(
     age INT NOT NULL
 );
 
--- CREATE TABLE treating(
---     doctorID INT,
---     patientID INT,
---     PRIMARY KEY (doctorID, patientID),
---     CONSTRAINT
---         FOREIGN KEY (doctorID)
---             REFERENCES employee (ID),
---     CONSTRAINT
---         FOREIGN KEY (patientID)
---             REFERENCES patient (ID)
--- );
+CREATE TABLE treating(
+    doctorID INT,
+    patientID INT,
+    PRIMARY KEY (doctorID, patientID),
+    CONSTRAINT
+        FOREIGN KEY (doctorID)
+            REFERENCES employee (ID),
+    CONSTRAINT
+        FOREIGN KEY (patientID)
+            REFERENCES patient (ID)
+);
 
 
 GRANT ALL PRIVILEGES ON TABLE department TO nikolajg;
