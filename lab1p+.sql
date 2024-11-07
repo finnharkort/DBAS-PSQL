@@ -65,7 +65,7 @@ CREATE TABLE treating(
     PRIMARY KEY (doctorID, patientID),
     CONSTRAINT
         FOREIGN KEY (doctorID)
-            REFERENCES doctor (ID),
+            REFERENCES employee (ID),
     CONSTRAINT
         FOREIGN KEY (patientID)
             REFERENCES patient (ID)
