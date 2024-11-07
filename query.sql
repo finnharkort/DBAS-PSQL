@@ -1,4 +1,4 @@
-SELECT * FROM users;
+SELECT fullname FROM users;
 
 SELECT * FROM friendship;
 
