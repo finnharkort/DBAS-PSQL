@@ -35,7 +35,8 @@ CREATE TABLE postTag(
     PRIMARY KEY (postID, tag),
     CONSTRAINT fk_post      
         FOREIGN KEY (postID)
-            REFERENCES post (postID)
+            REFERENCES post (postID),
+    CONSTRAINT accepted_tag
         CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
 );
 
