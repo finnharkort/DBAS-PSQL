@@ -44,14 +44,9 @@ CREATE TABLE videoPost(
 ) INHERITS (post);
 
 CREATE TABLE postTag(
-    postID INT,
+    postID INT REFERENCES post (postID),
     tag VARCHAR(255),
     PRIMARY KEY (postID, tag),
-    CONSTRAINT fk_post      
-        FOREIGN KEY (postID) REFERENCES textPost (postID),
-        FOREIGN KEY (postID) REFERENCES imagePost (postID),
-        FOREIGN KEY (postID) REFERENCES videoPost (postID),
-        CHECK (postID IS NOT NULL),
     CONSTRAINT accepted_tag
         CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
 );
