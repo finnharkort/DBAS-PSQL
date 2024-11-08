@@ -29,19 +29,6 @@ CREATE TABLE post(
         CHECK (postID >= 0)
 );
 
-CREATE TABLE postTag(
-    postID INT,
-    tag VARCHAR(255),
-    PRIMARY KEY (postID, tag),
-    CONSTRAINT fk_post      
-        FOREIGN KEY (postID) REFERENCES textPost (postID),
-        FOREIGN KEY (postID) REFERENCES imagePost (postID),
-        FOREIGN KEY (postID) REFERENCES videoPost (postID),
-        CHECK (postID IS NOT NULL),
-    CONSTRAINT accepted_tag
-        CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
-);
-
 CREATE TABLE textPost(
     textContent TEXT NOT NULL
 ) INHERITS (post);
@@ -55,6 +42,21 @@ CREATE TABLE videoPost(
     videoURL VARCHAR(255) NOT NULL,
     codec VARCHAR(255) NOT NULL
 ) INHERITS (post);
+
+CREATE TABLE postTag(
+    postID INT,
+    tag VARCHAR(255),
+    PRIMARY KEY (postID, tag),
+    CONSTRAINT fk_post      
+        FOREIGN KEY (postID) REFERENCES textPost (postID),
+        FOREIGN KEY (postID) REFERENCES imagePost (postID),
+        FOREIGN KEY (postID) REFERENCES videoPost (postID),
+        CHECK (postID IS NOT NULL),
+    CONSTRAINT accepted_tag
+        CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
+);
+
+
 
 CREATE TABLE likes(
     postID INT,
