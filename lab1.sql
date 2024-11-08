@@ -44,7 +44,7 @@ CREATE TABLE videoPost(
 ) INHERITS (post);
 
 CREATE TABLE postTag(
-    postID INT REFERENCES post (postID),
+    postID INT,
     tag VARCHAR(255),
     PRIMARY KEY (postID, tag),
     CONSTRAINT accepted_tag
