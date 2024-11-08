@@ -34,8 +34,10 @@ CREATE TABLE postTag(
     tag VARCHAR(255),
     PRIMARY KEY (postID, tag),
     CONSTRAINT fk_post      
-        FOREIGN KEY (postID)
-            REFERENCES post (postID),
+        FOREIGN KEY (postID1) REFERENCES textPost (postID),
+        FOREIGN KEY (postID2) REFERENCES imagePost (postID),
+        FOREIGN KEY (postID3) REFERENCES videoPost (postID),
+        CHECK (postID1 IS NOT NULL OR postID2 IS NOT NULL OR postID3 IS NOT NULL),
     CONSTRAINT accepted_tag
         CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
 );
