@@ -41,20 +41,17 @@ CREATE TABLE postTag(
 );
 
 CREATE TABLE textPost(
-    textContent TEXT NOT NULL,
-    postID INT REFERENCES post(postID)
+    textContent TEXT NOT NULL
 ) INHERITS (post);
 
 CREATE TABLE imagePost(
     imageURL VARCHAR(255) NOT NULL,
-    filter VARCHAR(255),
-    postID INT REFERENCES post(postID)
+    filter VARCHAR(255)
 ) INHERITS (post);
 
 CREATE TABLE videoPost(
     videoURL VARCHAR(255) NOT NULL,
-    codec VARCHAR(255) NOT NULL,
-    postID INT REFERENCES post(postID)
+    codec VARCHAR(255) NOT NULL
 ) INHERITS (post);
 
 CREATE TABLE likes(
