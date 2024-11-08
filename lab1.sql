@@ -33,28 +33,32 @@ CREATE TABLE postTag(
     postID INT,
     tag VARCHAR(255),
     PRIMARY KEY (postID, tag),
-    CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
+    CONSTRAINT fk_post      
+        FOREIGN KEY (postID)
+            REFERENCES post (postID),
+    CONSTRAINT accepted_tag
+        CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
 );
 
 CREATE TABLE textPost(
-    textContent VARCHAR(255) NOT NULL
+    textContent TEXT NOT NULL
 ) INHERITS (post);
 
 CREATE TABLE imagePost(
     imageURL VARCHAR(255) NOT NULL,
-    filter VARCHAR(255)[]
+    filter VARCHAR(255)
 ) INHERITS (post);
 
 CREATE TABLE videoPost(
     videoURL VARCHAR(255) NOT NULL,
-    codec VARCHAR(255)
+    codec VARCHAR(255) NOT NULL
 ) INHERITS (post);
 
 CREATE TABLE likes(
     postID INT,
     userID INT,
     PRIMARY KEY (postID, userID),
-    timestamp VARCHAR(255) NOT NULL,
+    timestamp DATE NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
             REFERENCES post (postID),
