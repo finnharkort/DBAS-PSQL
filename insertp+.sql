@@ -28,16 +28,16 @@ VALUES
     (4, 2); -- Nurse Michael Brown (apprentice) is mentored by Dr. Emily Johnson
 
 -- Insert sample data into doctor table
-INSERT INTO doctor (ID, phoneNr, name, roomNr, specialization) 
+INSERT INTO doctor (ID, roomNr, specialization) 
 VALUES 
-    (1, '1234567890', 'Dr. John Smith', 101, 'Cardiologist'),
-    (2, '2345678901', 'Dr. Emily Johnson', 102, 'Neurologist');
+    (1, 101, 'Cardiologist'),
+    (2, 102, 'Neurologist');
 
 -- Insert sample data into nurse table
-INSERT INTO nurse (ID, phoneNr, name, degree) 
+INSERT INTO nurse (ID, degree) 
 VALUES 
-    (3, '3456789012', 'Nurse Sarah Davis', 'Registered Nurse'),
-    (4, '4567890123', 'Nurse Michael Brown', 'Licensed Practical Nurse');
+    (3, 'Registered Nurse'),
+    (4, 'Licensed Practical Nurse');
 
 -- Insert sample data into patient table
 INSERT INTO patient (ID, diagnosises, name, age) 
