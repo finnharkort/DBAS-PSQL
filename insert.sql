@@ -16,10 +16,10 @@ INSERT INTO post(postID, userID, title, date, place) VAlUES (1, 3, 'På stranden
 INSERT INTO videoPost(postID, videoURL, codec) VALUES (1, 'https://vimeo.com/123456789', 'HEVC');
 
 INSERT INTO post(postID, userID, title, date, place) VAlUES (2, 1, 'Thoughts on the election', '2024-08-01', NULL);
-INSERT INTO videoPost(postID, videoURL, codec) VALUES (2, NULL, 'What are your thoughts on the election in America? I feel torn.');
+INSERT INTO textPost(postID, videoURL, codec) VALUES (2, NULL, 'What are your thoughts on the election in America? I feel torn.');
 
 INSERT INTO post(postID, userID, title, date, place) VAlUES (3, 6, 'Pluggar...', '2024-10-15', 'D-Huset');
-INSERT INTO videoPost(postID, videoURL, codec) VALUES (3, 'https://i.imgur.com/Tv8MzJk.jpg', NULL);
+INSERT INTO imagePost(postID, videoURL, codec) VALUES (3, 'https://i.imgur.com/Tv8MzJk.jpg', NULL);
 
 -- INSERT INTO videopost(postID, userID, title, date, place, videoURL, codec) VALUES (1, 3, 'På stranden :) Vad gör ni?', '2024-06-24', 'Tofta Beach', 'https://vimeo.com/123456789', 'HEVC');
 
