@@ -60,115 +60,43 @@ CREATE TABLE users(
 
 --------------FOR FIRST ALT---------
 
--- CREATE TABLE post(
---     postID INT PRIMARY KEY,
---     userID INT NOT NULL,
---     title VARCHAR(255),
---     date DATE NOT NULL,
---     place VARCHAR(255),
---     CONSTRAINT fk_users
---         FOREIGN KEY (userID)
---             REFERENCES users (userID),
---     CONSTRAINT postID_non_negative
---         CHECK (postID >= 0)
--- );
-
--- CREATE TABLE textPost(
---     postID INT PRIMARY KEY,
---     textContent TEXT NOT NULL,
---     CONSTRAINT fk_post
---         FOREIGN KEY (postID)
---             REFERENCES post (postID)
--- );
-
--- CREATE TABLE imagePost(
---     postID INT PRIMARY KEY,
---     imageURL VARCHAR(255) NOT NULL,
---     filter VARCHAR(255),
---     CONSTRAINT fk_post
---         FOREIGN KEY (postID)
---             REFERENCES post (postID)
--- );
-
--- CREATE TABLE videoPost(
---     postID INT PRIMARY KEY,
---     videoURL VARCHAR(255) NOT NULL,
---     codec VARCHAR(255) NOT NULL,
---     CONSTRAINT fk_post
---         FOREIGN KEY (postID)
---             REFERENCES post (postID)
--- );
-
--- CREATE TABLE postTag(
---     postID INT,
---     tag VARCHAR(255),
---     PRIMARY KEY (postID, tag),
---     CONSTRAINT fk_post
---         FOREIGN KEY (postID)
---             REFERENCES post (postID),
---     CONSTRAINT accepted_tag
---         CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
--- );
-
---------FIRST ALT----------
-
-------FOR SECOND ALT----------
-
-CREATE TABLE post (
-    postID INT PRIMARY KEY
-);
- 
-CREATE TABLE textPost(
+CREATE TABLE post(
     postID INT PRIMARY KEY,
     userID INT NOT NULL,
     title VARCHAR(255),
     date DATE NOT NULL,
     place VARCHAR(255),
-    textContent TEXT,
-    CONSTRAINT fk_post
-        FOREIGN KEY (postID)
-            REFERENCES post (postID),
     CONSTRAINT fk_users
         FOREIGN KEY (userID)
             REFERENCES users (userID),
     CONSTRAINT postID_non_negative
         CHECK (postID >= 0)
+);
+
+CREATE TABLE textPost(
+    postID INT PRIMARY KEY,
+    textContent TEXT NOT NULL,
+    CONSTRAINT fk_post
+        FOREIGN KEY (postID)
+            REFERENCES post (postID)
 );
 
 CREATE TABLE imagePost(
     postID INT PRIMARY KEY,
-    userID INT NOT NULL,
-    title VARCHAR(255),
-    date DATE NOT NULL,
-    place VARCHAR(255),
     imageURL VARCHAR(255) NOT NULL,
     filter VARCHAR(255),
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
-            REFERENCES post (postID),
-    CONSTRAINT fk_users
-        FOREIGN KEY (userID)
-            REFERENCES users (userID),
-    CONSTRAINT postID_non_negative
-        CHECK (postID >= 0)
+            REFERENCES post (postID)
 );
 
 CREATE TABLE videoPost(
     postID INT PRIMARY KEY,
-    userID INT NOT NULL,
-    title VARCHAR(255),
-    date DATE NOT NULL,
-    place VARCHAR(255),
     videoURL VARCHAR(255) NOT NULL,
     codec VARCHAR(255) NOT NULL,
     CONSTRAINT fk_post
         FOREIGN KEY (postID)
-            REFERENCES post (postID),
-    CONSTRAINT fk_users
-        FOREIGN KEY (userID)
-            REFERENCES users (userID),
-    CONSTRAINT postID_non_negative
-        CHECK (postID >= 0)
+            REFERENCES post (postID)
 );
 
 CREATE TABLE postTag(
@@ -181,6 +109,78 @@ CREATE TABLE postTag(
     CONSTRAINT accepted_tag
         CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
 );
+
+--------FIRST ALT----------
+
+------FOR SECOND ALT----------
+
+-- CREATE TABLE post (
+--     postID INT PRIMARY KEY
+-- );
+ 
+-- CREATE TABLE textPost(
+--     postID INT PRIMARY KEY,
+--     userID INT NOT NULL,
+--     title VARCHAR(255),
+--     date DATE NOT NULL,
+--     place VARCHAR(255),
+--     textContent TEXT,
+--     CONSTRAINT fk_post
+--         FOREIGN KEY (postID)
+--             REFERENCES post (postID),
+--     CONSTRAINT fk_users
+--         FOREIGN KEY (userID)
+--             REFERENCES users (userID),
+--     CONSTRAINT postID_non_negative
+--         CHECK (postID >= 0)
+-- );
+
+-- CREATE TABLE imagePost(
+--     postID INT PRIMARY KEY,
+--     userID INT NOT NULL,
+--     title VARCHAR(255),
+--     date DATE NOT NULL,
+--     place VARCHAR(255),
+--     imageURL VARCHAR(255) NOT NULL,
+--     filter VARCHAR(255),
+--     CONSTRAINT fk_post
+--         FOREIGN KEY (postID)
+--             REFERENCES post (postID),
+--     CONSTRAINT fk_users
+--         FOREIGN KEY (userID)
+--             REFERENCES users (userID),
+--     CONSTRAINT postID_non_negative
+--         CHECK (postID >= 0)
+-- );
+
+-- CREATE TABLE videoPost(
+--     postID INT PRIMARY KEY,
+--     userID INT NOT NULL,
+--     title VARCHAR(255),
+--     date DATE NOT NULL,
+--     place VARCHAR(255),
+--     videoURL VARCHAR(255) NOT NULL,
+--     codec VARCHAR(255) NOT NULL,
+--     CONSTRAINT fk_post
+--         FOREIGN KEY (postID)
+--             REFERENCES post (postID),
+--     CONSTRAINT fk_users
+--         FOREIGN KEY (userID)
+--             REFERENCES users (userID),
+--     CONSTRAINT postID_non_negative
+--         CHECK (postID >= 0)
+-- );
+
+-- CREATE TABLE postTag(
+--     postID INT,
+--     tag VARCHAR(255),
+--     PRIMARY KEY (postID, tag),
+--     CONSTRAINT fk_post
+--         FOREIGN KEY (postID)
+--             REFERENCES post (postID),
+--     CONSTRAINT accepted_tag
+--         CHECK (tag IN ('crypto', 'studying', 'question', 'social'))
+-- );
 
 -------SECOND ALT-----------
 
