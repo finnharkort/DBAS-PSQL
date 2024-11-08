@@ -23,7 +23,7 @@ CREATE TABLE worksAt(
     employeeID INT,
     departmentName VARCHAR(255),
     startDate DATE,
-    PRIMARY KEY(employeeID,departmentName),
+    PRIMARY KEY(employeeID),
     CONSTRAINT fk_employee
         FOREIGN KEY (employeeID)
             REFERENCES employee (ID),
@@ -34,7 +34,7 @@ CREATE TABLE worksAt(
 
 CREATE TABLE mentor(
     apprenticeID INT PRIMARY KEY,
-    mentorID INT,
+    mentorID INT UNIQUE,
     CONSTRAINT fk_employee1
         FOREIGN KEY (apprenticeID)
             REFERENCES employee (ID),
@@ -54,7 +54,7 @@ CREATE TABLE doctor(
 
 CREATE TABLE nurse(
     ID INT PRIMARY KEY,
-    degree VARCHAR(255),
+    degree VARCHAR(255) NO NULL,
     CONSTRAINT fk_employee  
         FOREIGN KEY (ID)
             REFERENCES employee (ID)
@@ -62,7 +62,7 @@ CREATE TABLE nurse(
 
 CREATE TABLE patient(
     ID INT PRIMARY KEY,
-    diagnosises VARCHAR(255)[], --Nullable
+    diagnosises VARCHAR(255), --Nullable
     name VARCHAR(255) NOT NULL,
     age INT NOT NULL
 );

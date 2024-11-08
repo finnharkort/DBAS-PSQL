@@ -13,9 +13,8 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users(
     userID INT PRIMARY KEY,
-    fullName VARCHAR(255)
+    fullName VARCHAR(255) NOT NULL
 );
-
 
 --------FOR INHERITANCE-------
 
