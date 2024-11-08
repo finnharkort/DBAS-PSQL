@@ -44,13 +44,21 @@ CREATE TABLE mentor(
 );
 
 CREATE TABLE doctor(
+    ID INT PRIMARY KEY,
     roomNr INT NOT NULL,
-    specialization VARCHAR(255) NOT NULL
-) INHERITS (employee);
+    specialization VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_employee  
+        FOREIGN KEY (ID)
+            REFERENCES employee (ID)
+);
 
 CREATE TABLE nurse(
-    degree VARCHAR(255)
-) INHERITS (employee);
+    ID INT PRIMARY KEY,
+    degree VARCHAR(255),
+    CONSTRAINT fk_employee  
+        FOREIGN KEY (ID)
+            REFERENCES employee (ID)
+);
 
 CREATE TABLE patient(
     ID INT PRIMARY KEY,
