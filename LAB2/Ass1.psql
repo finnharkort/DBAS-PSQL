@@ -1,0 +1,10 @@
+SELECT
+    p.title,
+    string_agg(pt.tag, ',') AS tags
+FROM
+    post p
+    JOIN posttag pt ON p.postid = pt.postid
+GROUP BY
+    p.title
+ORDER BY
+    p.title ASC;
