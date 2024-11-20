@@ -1,0 +1,28 @@
+WITH user_first_subscription AS (
+    SELECT 
+        userID,
+        MIN(date) AS reg_date
+    FROM Subscription
+    GROUP BY userID
+),
+user_has_friend AS (
+    SELECT 
+        u.userID,
+        EXISTS (
+            SELECT 1
+            FROM Friend f
+            WHERE f.userID = u.userID
+        ) AS has_friend
+    FROM Users u
+)
+SELECT 
+    u.name,
+    uhf.has_friend,
+    ufs.reg_date
+FROM Users u
+JOIN user_first_subscription ufs
+    ON u.userid = ufs.userid
+JOIN user_has_friend uhf
+    ON u.userid = uhf.userid
+WHERE date_part('month', ufs.reg_date) = 1
+ORDER BY u.name;

@@ -1,0 +1,56 @@
+WITH user_first_subscription AS (
+    SELECT 
+        userID,
+        MIN(date_part('week', date)) AS first_subscription_week
+    FROM Subscription
+    GROUP BY userID
+),
+weekly_subscriptions AS (
+    SELECT
+        s.userID,
+        date_part('week', date) AS subscription_week
+    FROM Subscription s
+),
+new_users AS (
+    SELECT 
+        ws.subscription_week,
+        ws.userID
+    FROM weekly_subscriptions ws
+    JOIN user_first_subscription ufs
+        ON ws.userID = ufs.userID
+    WHERE ws.subscription_week = ufs.first_subscription_week
+),
+returning_users AS (
+    SELECT 
+        ws.subscription_week,
+        ws.userID
+    FROM weekly_subscriptions ws
+    JOIN user_first_subscription ufs
+        ON ws.userID = ufs.userID
+    WHERE ws.subscription_week > ufs.first_subscription_week
+),
+weekly_activity AS (
+    SELECT
+        date_part('week', p.date) AS week,
+        COUNT(p.postID) AS activity
+    FROM Post p
+    GROUP BY week
+),
+all_weeks AS (
+    SELECT generate_series(1, 30) AS subscription_week
+)
+SELECT 
+    aw.subscription_week AS week,
+    COUNT(DISTINCT nu.userID) AS new_customers,
+    COUNT(DISTINCT ru.userID) AS kept_customers,
+    COALESCE(wa.activity, 0) AS activity
+FROM all_weeks aw
+LEFT JOIN new_users nu
+    ON aw.subscription_week = nu.subscription_week
+LEFT JOIN returning_users ru
+    ON aw.subscription_week = ru.subscription_week
+LEFT JOIN weekly_activity wa
+    ON aw.subscription_week = wa.week
+GROUP BY aw.subscription_week, wa.activity
+ORDER BY aw.subscription_week;
+

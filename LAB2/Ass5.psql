@@ -1,0 +1,33 @@
+--DOES NOT WORK (CHATTGPT CODE)
+
+WITH RECURSIVE friend_chain (friend_start, friend_middle, friend_end, chain) AS (
+    -- Anchor member: find initial pairs of friends (X, Y)
+    SELECT 
+        f1.userid AS friend_start, 
+        f1.friendid AS friend_middle, 
+        f1.friendid AS friend_end,
+        CONCAT(f1.userid, ' -> ', f1.friendid) AS chain
+    FROM 
+        friend f1
+
+    UNION ALL
+
+    -- Recursive term: extend the chain with (Y, Z) such that X != Z
+    SELECT 
+        fc.friend_start, 
+        fc.friend_end AS friend_middle, 
+        f2.friendid AS friend_end,
+        CONCAT(fc.chain, ' -> ', f2.friendid) AS chain
+    FROM 
+        friend_chain fc
+    JOIN 
+        friend f2
+    ON 
+        fc.friend_end = f2.userid
+    WHERE 
+        f2.friendid != fc.friend_start -- Ensure X is not directly friends with Z
+        AND fc.chain NOT LIKE CONCAT('%', f2.friendid, '%') -- Avoid cycles
+)
+-- Final selection: show all unique chains
+SELECT DISTINCT chain 
+FROM friend_chain;
