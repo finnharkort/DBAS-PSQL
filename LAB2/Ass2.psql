@@ -1,4 +1,4 @@
-SELECT * FROM (
+WITH ranked_posts AS(
     SELECT
         p.postid,
         p.title,
@@ -10,6 +10,8 @@ SELECT * FROM (
         ON p.postid = l.postid
     WHERE pt.tag = '#leadership'
     GROUP BY p.postid
-) AS ranked_posts
+)
+SELECT *
+FROM ranked_posts
 WHERE rank <= 5
 ORDER BY rank;
