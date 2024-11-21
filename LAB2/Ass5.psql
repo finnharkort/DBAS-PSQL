@@ -29,7 +29,6 @@ SELECT
    NULL
 FROM Chain fc
 JOIN users u ON fc.NextUserId = u.userid -- Reference the "next" user
-
 WHERE NOT EXISTS
    (SELECT 1
    FROM Friend f
