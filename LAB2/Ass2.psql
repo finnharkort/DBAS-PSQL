@@ -11,4 +11,3 @@ SELECT * FROM (
 ) AS ranked_posts
 WHERE rank <= 5
 ORDER BY rank;
-

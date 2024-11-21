@@ -1,0 +1,50 @@
+WITH weekly_subscriptions AS(
+    SELECT 
+        UserID,
+        DATE_PART('week', date) as week,
+        ROW_NUMBER() OVER (PARTITION BY UserID ORDER BY date ASC) AS rowNr
+    FROM
+        Subscription
+),
+new_users AS(
+    SELECT 
+        week,
+        COUNT(UserID) count
+    FROM
+        weekly_subscriptions
+    WHERE rowNr = 1
+    GROUP BY week
+),
+returning_users AS(
+    SELECT 
+        week,
+        COUNT(UserID) count
+    FROM
+        weekly_subscriptions
+    WHERE rowNr > 1
+    GROUP BY week
+),
+weekly_activity AS (
+    SELECT
+        date_part('week', date) AS week,
+        COUNT(postID) AS activity
+    FROM Post
+    GROUP BY week
+),
+all_weeks AS(
+    SELECT generate_series(1, 30) AS week
+)
+SELECT 
+    all_weeks.week,
+    COALESCE(new_users.count,0) AS new_users,
+    COALESCE(returning_users.count,0) AS kept_users,
+    COALESCE(weekly_activity.activity,0) AS activity
+FROM
+    all_weeks
+LEFT JOIN
+    returning_users ON all_weeks.week = returning_users.week
+LEFT JOIN
+    new_users ON all_weeks.week = new_users.week
+LEFT JOIN
+    weekly_activity ON all_weeks.week = weekly_activity.week
+ORDER By all_weeks.week;

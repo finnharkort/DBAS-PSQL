@@ -1,0 +1,8 @@
+SELECT
+    Title, 
+    string_agg(Tag, ', ') AS tags
+FROM
+    Post
+INNER JOIN 
+    PostTag ON Post.PostID = PostTag.PostID
+GROUP BY Post.Title;

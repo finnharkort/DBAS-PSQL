@@ -1,0 +1,27 @@
+WITH cte1 AS(
+    SELECT 
+    Post.PostID,
+    Title,
+    COUNT(Post.PostID) AS occurences
+    FROM
+        Post
+    INNER JOIN PostTag On Post.PostID = PostTag.PostID
+    INNER JOIN Likes On Post.PostID = Likes.PostID
+    WHERE Tag = '#leadership'
+    GROUP BY Post.PostID
+),
+cte2 AS(
+SELECT 
+    PostID,
+    Title,
+    DENSE_RANK () OVER (
+		ORDER BY occurences DESC
+	) rank 
+    FROM cte1
+)
+SELECT
+    PostID,
+    Title,
+    rank
+FROM cte2
+WHERE rank <6;
