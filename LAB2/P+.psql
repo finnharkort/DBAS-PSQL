@@ -1,0 +1,31 @@
+WITH users_march AS (
+    SELECT 
+        u.name,
+        u.userid,
+        COUNT(p.postid) AS posts
+    FROM Users u
+    JOIN post p
+        ON u.userid = p.userid
+    WHERE date_part('month', p.date) = 3
+    GROUP BY u.userid
+), post_likes AS (
+    SELECT
+        u.userid,
+        p.postid,
+        COUNT(l.postid) AS likes_amount
+    FROM post p
+    JOIN likes l
+        ON p.postid = l.postid
+    JOIN users u
+        ON p.userid = u.userid
+    WHERE date_part('month', p.date) = 3
+    GROUP BY p.postid, u.userid
+)
+SELECT
+    um.name,
+    SUM(pl.likes_amount) > 50 AS has_more_than_50_likes
+FROM users_march um
+JOIN post_likes pl
+    ON um.userid = pl.userid
+GROUP BY um.userid, um.name
+ORDER BY um.name;
