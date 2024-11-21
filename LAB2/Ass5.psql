@@ -1,4 +1,5 @@
-WITH RECURSIVE Chain (StartUserId, NextUserId) AS(-- Anchor Part
+WITH RECURSIVE Chain (StartUserId, NextUserId) AS(
+   -- Anchor Part
    SELECT 
       UserId AS StartUserId,
       FriendId AS NextUserId
@@ -6,10 +7,10 @@ WITH RECURSIVE Chain (StartUserId, NextUserId) AS(-- Anchor Part
    WHERE UserId = 20
    UNION ALL -- Recursive Part
    SELECT 
-      fc.NextUserId AS StartUserId,
+      c.NextUserId AS StartUserId,
       f.FriendId AS NextUserId
    FROM Friend f
-   JOIN Chain fc ON fc.NextUserId = f.UserId --this handles termination
+   JOIN Chain c ON c.NextUserId = f.UserId --this handles termination
 ) --  Main query
 
 SELECT 

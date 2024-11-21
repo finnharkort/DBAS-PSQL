@@ -2,7 +2,7 @@ WITH weekly_subscriptions AS(
     SELECT 
         UserID,
         DATE_PART('week', date) as week,
-        ROW_NUMBER() OVER (PARTITION BY UserID ORDER BY date ASC) AS rowNr
+        ROW_NUMBER() OVER (PARTITION BY UserID ORDER BY date ASC) AS subscription_index
     FROM
         Subscription
 ),
@@ -12,7 +12,7 @@ new_users AS(
         COUNT(UserID) count
     FROM
         weekly_subscriptions
-    WHERE rowNr = 1
+    WHERE subscription_index = 1
     GROUP BY week
 ),
 returning_users AS(
@@ -21,7 +21,7 @@ returning_users AS(
         COUNT(UserID) count
     FROM
         weekly_subscriptions
-    WHERE rowNr > 1
+    WHERE subscription_index > 1
     GROUP BY week
 ),
 weekly_activity AS (
