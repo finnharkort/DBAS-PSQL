@@ -1,33 +1,53 @@
---DOES NOT WORK (CHATTGPT CODE)
-
-WITH RECURSIVE friend_chain (friend_start, friend_middle, friend_end, chain) AS (
-    -- Anchor member: find initial pairs of friends (X, Y)
+-- Create a recursive Common Table Expression (CTE)
+WITH RECURSIVE FriendChain AS (
+    -- Base case: Start with User ID 20
     SELECT 
-        f1.userid AS friend_start, 
-        f1.friendid AS friend_middle, 
-        f1.friendid AS friend_end,
-        CONCAT(f1.userid, ' -> ', f1.friendid) AS chain
+        UserId AS StartUserId, 
+        FriendId AS NextUserId
     FROM 
-        friend f1
+        Friend
+    WHERE 
+        UserId = 20  -- Directly reference the starting ID
 
     UNION ALL
 
-    -- Recursive term: extend the chain with (Y, Z) such that X != Z
+    -- Recursive case: Find the next friend in the chain
     SELECT 
-        fc.friend_start, 
-        fc.friend_end AS friend_middle, 
-        f2.friendid AS friend_end,
-        CONCAT(fc.chain, ' -> ', f2.friendid) AS chain
+        fc.NextUserId AS StartUserId,  -- Use the current 'NextUserId' as the new 'StartUserId'
+        f.FriendId AS NextUserId
     FROM 
-        friend_chain fc
-    JOIN 
-        friend f2
+        Friend f
+    INNER JOIN 
+        FriendChain fc
     ON 
-        fc.friend_end = f2.userid
+        fc.NextUserId = f.UserId  -- Continue the chain
+
     WHERE 
-        f2.friendid != fc.friend_start -- Ensure X is not directly friends with Z
-        AND fc.chain NOT LIKE CONCAT('%', f2.friendid, '%') -- Avoid cycles
+        fc.StartUserId <> f.FriendId  -- Ensure X is not friends with Z
 )
--- Final selection: show all unique chains
-SELECT DISTINCT chain 
-FROM friend_chain;
+
+-- Include all connections in the chain
+SELECT 
+    u.name,
+    fc.StartUserId AS UserInChain, 
+    fc.NextUserId AS FriendInChain
+FROM FriendChain fc
+JOIN users u
+    ON fc.StartUserId = u.userid
+
+UNION ALL
+
+-- Add the terminal node
+SELECT 
+    u.name,  -- Fetch the name for the terminal node
+    fc.NextUserId AS UserInChain, 
+    NULL AS FriendInChain
+FROM FriendChain fc
+JOIN users u
+    ON fc.NextUserId = u.userid  -- Use NextUserId to fetch the name of the terminal node
+WHERE 
+    NOT EXISTS (
+        SELECT 1
+        FROM Friend f
+        WHERE fc.NextUserId = f.UserId
+    );
