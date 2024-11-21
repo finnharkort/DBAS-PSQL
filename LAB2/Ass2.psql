@@ -4,8 +4,10 @@ SELECT * FROM (
         p.title,
         RANK() OVER (ORDER BY COUNT(l.postid) DESC) AS rank
     FROM post p
-    JOIN posttag pt ON p.postid = pt.postid
-    JOIN likes l ON p.postid = l.postid
+    JOIN posttag pt 
+        ON p.postid = pt.postid
+    JOIN likes l 
+        ON p.postid = l.postid
     WHERE pt.tag = '#leadership'
     GROUP BY p.postid
 ) AS ranked_posts

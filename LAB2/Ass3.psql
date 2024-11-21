@@ -1,17 +1,17 @@
-WITH user_first_subscription AS (
+WITH user_first_subscription AS ( -- user|firstTimeSubscription
     SELECT 
         userID,
         MIN(date_part('week', date)) AS first_subscription_week
     FROM Subscription
     GROUP BY userID
 ),
-weekly_subscriptions AS (
+weekly_subscriptions AS ( -- user|subscriptionWeek (all)
     SELECT
         s.userID,
         date_part('week', date) AS subscription_week
     FROM Subscription s
 ),
-new_users AS (
+new_users AS ( -- user|subscriptionweek (will be firstTime)
     SELECT 
         ws.subscription_week,
         ws.userID
@@ -20,7 +20,7 @@ new_users AS (
         ON ws.userID = ufs.userID
     WHERE ws.subscription_week = ufs.first_subscription_week
 ),
-returning_users AS (
+returning_users AS ( -- user|subscriptionWeek (will be returning)
     SELECT 
         ws.subscription_week,
         ws.userID
@@ -29,7 +29,7 @@ returning_users AS (
         ON ws.userID = ufs.userID
     WHERE ws.subscription_week > ufs.first_subscription_week
 ),
-weekly_activity AS (
+weekly_activity AS ( -- week|amountofposts
     SELECT
         date_part('week', p.date) AS week,
         COUNT(p.postID) AS activity
