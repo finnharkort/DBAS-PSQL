@@ -20,7 +20,8 @@ WITH users_march AS (
         ON p.userid = u.userid
     WHERE date_part('month', p.date) = 3
     GROUP BY p.postid, u.userid
-)SELECT
+)
+SELECT
     um.name,
     SUM(pl.likes_amount) > 50 AS received_likes
 FROM users_march um

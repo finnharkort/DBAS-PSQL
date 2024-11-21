@@ -10,7 +10,7 @@ WITH RECURSIVE Chain (StartUserId, NextUserId) AS(
       c.NextUserId AS StartUserId,
       f.FriendId AS NextUserId
    FROM Friend f
-   JOIN Chain c ON c.NextUserId = f.UserId --this handles termination
+   JOIN Chain c ON c.NextUserId = f.UserId
 ) --  Main query
 
 SELECT 
