@@ -1,32 +1,20 @@
--- Create a recursive Common Table Expression (CTE)
 WITH RECURSIVE FriendChain AS (
-    -- Base case: Start with User ID 20
     SELECT 
         UserId AS StartUserId, 
         FriendId AS NextUserId
-    FROM 
-        Friend
-    WHERE 
-        UserId = 20  -- Directly reference the starting ID
+    FROM Friend
+    WHERE UserId = 20
 
     UNION ALL
 
-    -- Recursive case: Find the next friend in the chain
     SELECT 
-        fc.NextUserId AS StartUserId,  -- Use the current 'NextUserId' as the new 'StartUserId'
+        fc.NextUserId AS StartUserId, 
         f.FriendId AS NextUserId
-    FROM 
-        Friend f
-    INNER JOIN 
-        FriendChain fc
-    ON 
-        fc.NextUserId = f.UserId  -- Continue the chain
-
-    WHERE 
-        fc.StartUserId <> f.FriendId  -- Ensure X is not friends with Z
+    FROM Friend f
+    INNER JOIN FriendChain fc
+        ON fc.NextUserId = f.UserId 
+    WHERE fc.StartUserId <> f.FriendId 
 )
-
--- Include all connections in the chain
 SELECT 
     u.name,
     fc.StartUserId AS UserInChain, 
@@ -37,14 +25,14 @@ JOIN users u
 
 UNION ALL
 
--- Add the terminal node
+--last node
 SELECT 
-    u.name,  -- Fetch the name for the terminal node
+    u.name,
     fc.NextUserId AS UserInChain, 
     NULL AS FriendInChain
 FROM FriendChain fc
 JOIN users u
-    ON fc.NextUserId = u.userid  -- Use NextUserId to fetch the name of the terminal node
+    ON fc.NextUserId = u.userid  -- Reference the "next" user
 WHERE 
     NOT EXISTS (
         SELECT 1
