@@ -1,4 +1,5 @@
-WITH RECURSIVE FriendChain AS (
+WITH RECURSIVE FriendChain (StartUserId, NextUserId) AS (
+    -- Anchor Part
     SELECT 
         UserId AS StartUserId, 
         FriendId AS NextUserId
@@ -7,6 +8,7 @@ WITH RECURSIVE FriendChain AS (
 
     UNION ALL
 
+    -- Recursive Part
     SELECT 
         fc.NextUserId AS StartUserId, 
         f.FriendId AS NextUserId
@@ -15,6 +17,7 @@ WITH RECURSIVE FriendChain AS (
         ON fc.NextUserId = f.UserId 
     WHERE fc.StartUserId <> f.FriendId 
 )
+--  Main query
 SELECT 
     u.name,
     fc.StartUserId AS UserInChain, 
@@ -25,7 +28,7 @@ JOIN users u
 
 UNION ALL
 
---last node
+-- Last Node
 SELECT 
     u.name,
     fc.NextUserId AS UserInChain, 
@@ -37,5 +40,5 @@ WHERE
     NOT EXISTS (
         SELECT 1
         FROM Friend f
-        WHERE fc.NextUserId = f.UserId
+        WHERE fc.NextUserId = f.UserId -- Make sure we dont skip directly from X to Z
     );
