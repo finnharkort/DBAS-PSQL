@@ -1,8 +1,7 @@
 WITH users_march AS (
     SELECT 
         u.name,
-        u.userid,
-        COUNT(p.postid) AS posts
+        u.userid
     FROM Users u
     JOIN post p
         ON u.userid = p.userid

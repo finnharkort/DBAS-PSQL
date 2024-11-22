@@ -10,7 +10,7 @@ WITH RECURSIVE Chain (StartUserId, NextUserId) AS(
       c.NextUserId AS StartUserId,
       f.FriendId AS NextUserId
    FROM Friend f
-   JOIN Chain c ON c.NextUserId = f.UserId --this handles termination
+   JOIN Chain c ON c.NextUserId = f.UserId 
 ) --  Main query
 
 SELECT 
@@ -33,5 +33,5 @@ JOIN users u ON fc.NextUserId = u.userid -- Reference the "next" user
 WHERE NOT EXISTS
    (SELECT 1
    FROM Friend f
-   WHERE fc.NextUserId = f.UserId -- Make sure we dont go through the whole chain again (without connections)
+   WHERE fc.NextUserId = f.UserId 
  );
