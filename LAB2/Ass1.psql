@@ -5,6 +5,6 @@ FROM
     post p
     JOIN posttag pt ON p.postid = pt.postid
 GROUP BY
-    p.title
+    p.postid
 ORDER BY
     p.title ASC;

@@ -1,36 +1,30 @@
-WITH RECURSIVE Chain (StartUserId, NextUserId) AS(
-   -- Anchor Part
-   SELECT 
-      UserId AS StartUserId,
-      FriendId AS NextUserId
-   FROM Friend
-   WHERE UserId = 20
-   UNION ALL -- Recursive Part
-   SELECT 
-      c.NextUserId AS StartUserId,
-      f.FriendId AS NextUserId
-   FROM Friend f
-   JOIN Chain c ON c.NextUserId = f.UserId 
-) --  Main query
+WITH RECURSIVE Chain (StartUserId,
+                      NextUserId) AS
+   ( -- Anchor Part
+ SELECT UserId AS StartUserId, FriendId AS NextUserId
+    FROM Friend
+    WHERE UserId = 20
+    UNION ALL -- Recursive Part
+ SELECT c.NextUserId AS StartUserId, f.FriendId AS NextUserId
+    FROM Friend f
+    JOIN Chain c ON c.NextUserId = f.UserId) --  Main query
 
-SELECT 
-   u.name,
-   c.StartUserId AS user_id,
-   c.NextUserId AS friend_id
-FROM 
-   Chain c
-JOIN 
-   users u ON c.StartUserId = u.userid
+SELECT -- displays chain
+ u.name,
+ c.StartUserId AS user_id,
+ c.NextUserId AS friend_id
+FROM Chain c
+JOIN users u ON c.StartUserId = u.userid
 UNION ALL -- Last Node
 
-SELECT 
-   u.name,
-   fc.NextUserId AS user_id,
-   NULL
+SELECT -- displays last
+ u.name,
+ fc.NextUserId AS user_id,
+ NULL
 FROM Chain fc
 JOIN users u ON fc.NextUserId = u.userid -- Reference the "next" user
+
 WHERE NOT EXISTS
-   (SELECT 1
-   FROM Friend f
-   WHERE fc.NextUserId = f.UserId 
- );
+      (SELECT 1
+       FROM Friend f
+       WHERE fc.NextUserId = f.UserId );
