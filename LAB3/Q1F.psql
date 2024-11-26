@@ -1,0 +1,20 @@
+WITH rankedBorders1 AS
+    ( SELECT Country.Code, COUNT(Country2) AS num, Country.Name AS name
+     FROM borders
+     RIGHT JOIN Country ON borders.Country1 = Country.Code
+     GROUP BY Country.Code),
+                    rankedBorders2 AS
+    ( SELECT Country.Code, COUNT(Country1) AS num, Country.Name AS name
+     FROM borders
+     RIGHT JOIN Country ON borders.Country2 = Country.Code
+     GROUP BY Country.Code),
+                                   rankedBordersFinal AS
+    ( SELECT rankedBorders1.name AS name, rankedBorders1.num + rankedBorders2.num AS num, RANK () OVER (
+                                                                                                        ORDER BY rankedBorders1.num + rankedBorders2.num ASC) AS rank
+     FROM rankedBorders1
+     JOIN rankedBorders2 ON rankedBorders1.code = rankedBorders2.code
+     WHERE rankedBorders1.num + rankedBorders2.num != 0 )
+SELECT name,
+       rank
+FROM rankedBordersFinal
+ORDER BY rank;
