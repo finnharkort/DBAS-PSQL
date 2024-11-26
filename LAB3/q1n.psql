@@ -21,15 +21,19 @@ rankedBorders2 AS(
 rankedBordersFinal AS(
     SELECT 
         rankedBorders1.name AS name,
-        rankedBorders1.num + rankedBorders2.num AS num
+        rankedBorders1.num + rankedBorders2.num AS num,
+        DENSE_RANK () OVER (
+		ORDER BY rankedBorders1.num + rankedBorders2.num ASC   
+	) rank 
     FROM 
         rankedBorders1
     JOIN rankedBorders2 ON rankedBorders1.code = rankedBorders2.code
+    WHERE rankedBorders1.num + rankedBorders2.num != 0
 )
 SELECT 
     name,
     num
 FROM 
     rankedBordersFinal
-WHERE num != 0
+WHERE rank = 1
 ORDER BY num;
