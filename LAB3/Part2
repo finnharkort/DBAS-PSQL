@@ -1,0 +1,7 @@
+1. If there is something you want to query often it could save time to create a view instead and avoid doing the same query multiple times. They make an easy font to a query that can be very complex. 
+
+2. Non materialized stores only the query command while materialized stores both the query and the data itself.
+
+3. Materialized can be worth it if you query something often and want to lower the time it takes to query. 
+
+4. They take up less data storage and you dont have to update them everytime you update the base tables.
