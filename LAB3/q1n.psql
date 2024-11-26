@@ -5,7 +5,7 @@ WITH rankedBorders1 AS(
         Country.Name AS name
     FROM 
         borders
-    FULL OUTER JOIN Country ON borders.Country1 = Country.Code
+    RIGHT JOIN Country ON borders.Country1 = Country.Code
     GROUP BY Country.Code
 ),
 rankedBorders2 AS(
@@ -15,7 +15,7 @@ rankedBorders2 AS(
         Country.Name AS name
     FROM 
         borders
-    FULL OUTER JOIN Country ON borders.Country2 = Country.Code
+    RIGHT JOIN Country ON borders.Country2 = Country.Code
     GROUP BY Country.Code
 ),
 rankedBordersFinal AS(
@@ -24,7 +24,7 @@ rankedBordersFinal AS(
         rankedBorders1.num + rankedBorders2.num AS num
     FROM 
         rankedBorders1
-    FULL OUTER JOIN rankedBorders2 ON rankedBorders1.code = rankedBorders2.code
+    JOIN rankedBorders2 ON rankedBorders1.code = rankedBorders2.code
 )
 SELECT 
     name,
