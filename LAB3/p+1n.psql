@@ -36,6 +36,10 @@ Chain AS(
     JOIN Chain ON cte.First = Chain.code
     WHERE min <5 AND Second != 'S'
 )
-SELECT DISTINCT *
+SELECT
+    code,
+    name,
+    MIN(min) as min
 FROM Chain
+GROUP BY code, name
 ORDER BY min ASC;
