@@ -1,0 +1,36 @@
+WITH RECURSIVE relevantRivers AS(
+    SELECT
+        name AS river,
+        river AS destination,
+        River.Length,
+        1 AS number2
+    FROM River
+    WHERE name IN ('Nile','Amazonas','Yangtze','Rhein','Donau','Mississippi')
+    UNION ALL
+    SELECT 
+        name AS river,
+        River.river AS destination,
+        River.Length,
+        relevantRivers.number2+1 AS number2
+    FROM River
+    JOIN relevantRivers ON River.river = relevantRivers.river
+),
+Chain AS(
+    SELECT
+        river,
+        destination,
+        relevantRivers.length,
+        relevantRivers.number2
+    FROM relevantRivers
+    WHERE river = 'Mississippi'
+    UNION ALL
+    SELECT 
+        relevantRivers.river,
+        relevantRivers.destination,
+        relevantRivers.length,
+        relevantRivers.number2
+    FROM relevantRivers
+    JOIN Chain ON relevantRivers.destination = Chain.river
+)
+SELECT DISTINCT * FROM Chain
+ORDER BY destination;
