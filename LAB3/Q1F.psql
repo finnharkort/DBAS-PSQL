@@ -3,9 +3,7 @@ WITH two_way_border AS (
         Country1,
         Country2
     FROM borders
-
     UNION ALL
-
     SELECT 
         Country2 AS Country1, 
         Country1 AS Country2
@@ -21,4 +19,3 @@ SELECT * FROM (
     GROUP BY twb.Country1, c.Name
 ) AS border_rank
 WHERE rank = 1;
-
