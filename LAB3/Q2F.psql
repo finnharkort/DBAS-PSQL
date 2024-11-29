@@ -1,0 +1,21 @@
+WITH country_lang_dist AS (
+    SELECT *
+    FROM Spoken
+    WHERE Percentage IS NOT NULL
+    GROUP BY Country, Language, Percentage
+), 
+country_pop_dist AS (
+    SELECT 
+        cld.Language, 
+        cld.Percentage, 
+        (cld.Percentage / 100.0) * c.Population AS speakers
+    FROM country_lang_dist cld
+    JOIN Country c
+        ON cld.Country = c.Code
+)
+SELECT 
+    Language, 
+    ROUND(SUM(speakers)) AS total_speakers
+FROM country_pop_dist
+GROUP BY Language
+ORDER BY total_speakers DESC;
