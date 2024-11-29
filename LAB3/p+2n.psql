@@ -2,7 +2,7 @@ WITH RECURSIVE relevantRivers AS(
     SELECT
         name AS river,
         river AS destination,
-        River.length,
+        River.length AS totlength,
         name AS finalDestination,
         1 AS numrivers,
         name || '' AS path
@@ -12,12 +12,25 @@ WITH RECURSIVE relevantRivers AS(
     SELECT 
         name AS river,
         River.river AS destination,
-        River.length + relevantRivers.length AS length,
+        River.length + relevantRivers.totlength AS totlength,
         finalDestination,
         relevantRivers.numrivers+1 AS numrivers,
         path||'-'|| name AS path
     FROM River
     JOIN relevantRivers ON River.river = relevantRivers.river
+),
+largestRivers AS(
+    SELECT 
+        finalDestination,
+        MAX(numrivers) AS numrivers
+    FROM relevantRivers
+    GROUP BY finalDestination
 )
-SELECT DISTINCT * FROM relevantRivers
-ORDER BY finalDestination, numrivers;
+SELECT
+    RANK() OVER (ORDER BY largestRivers.numrivers) AS rank,
+    largestRivers.numrivers,
+    relevantRivers.path,
+    relevantRivers.totlength
+FROM largestRivers
+JOIN relevantRivers ON largestRivers.finalDestination = relevantRivers.finalDestination AND largestRivers.numrivers = relevantRivers.numrivers
+ORDER BY rank,totlength DESC;

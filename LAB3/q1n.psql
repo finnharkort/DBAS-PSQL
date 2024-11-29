@@ -37,20 +37,3 @@ FROM
     rankedBordersFinal
 WHERE rank = 1
 ORDER BY num;
-
-
-
-WITH cte AS( -- Tror att denna borde gå att få in i lösningen
-    SELECT
-        Country1 AS First,
-        Country2 AS Second
-    FROM
-        borders
-    UNION ALL
-    SELECT
-        Country1 AS First,
-        Country2 AS Second
-    FROM
-        borders
-)
-SELECT * FROM cte;
