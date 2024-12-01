@@ -1,0 +1,6 @@
+SELECT 
+    p.postID
+FROM Post p
+JOIN PostTag pt1 ON p.postID = pt1.postID 
+JOIN PostTag pt2 ON pt1.postID = pt2.postID
+WHERE pt2.tag = '#amazing' AND pt1.tag = '#leadership' AND p.date > '2023-12-31'

@@ -1,0 +1,6 @@
+SELECT DISTINCT
+    vp.Codec
+FROM videoPost vp 
+JOIN post p ON vp.postID = p.postID
+JOIN event e ON p.place = e.place
+WHERE eventID = 1368;

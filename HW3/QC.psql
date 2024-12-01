@@ -1,0 +1,7 @@
+SELECT 
+    l.userID,
+    COUNT(l.userID) AS count
+FROM users u
+JOIN likes l ON u.userID = l.userID
+GROUP BY l.userID
+HAVING COUNT(l.userID) > 5;

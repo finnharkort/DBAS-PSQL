@@ -1,0 +1,36 @@
+WITH RECURSIVE river_step AS (
+    SELECT
+        name AS curRiver,
+        river AS destRiver,
+        name AS system,
+        1 AS numRivers,
+        length AS totalLength,
+        name || '' AS path
+    FROM River
+    WHERE name IN ('Nile','Amazonas','Yangtze','Rhein','Donau','Mississippi')
+    UNION ALL
+    SELECT 
+        r.name AS curRiver,
+        r.River As DestRiver,
+        system,
+        rs.numRivers + 1 AS numRivers,
+        rs.totalLength + r.length AS totalLength,
+        path||'-'|| r.name AS path
+    FROM River r
+    JOIN river_step rs ON r.river = rs.curRiver
+), 
+longestSystem AS(
+    SELECT 
+        system,
+        MAX(numRivers) AS maxRivers
+    FROM river_step
+    GROUP BY system
+)
+SELECT 
+    RANK() OVER (ORDER BY ls.maxRivers) AS rank,
+    ls.maxRivers, 
+    rs.path,
+    rs.totalLength
+FROM longestSystem ls 
+JOIN river_step rs ON ls.system = rs.system AND ls.maxRivers = rs.numRivers
+ORDER BY rank ASC, rs.totalLength DESC;

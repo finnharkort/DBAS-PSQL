@@ -1,0 +1,17 @@
+SELECT 
+    u.userID,
+    s.userID
+FROM users u 
+LEFT JOIN subscription s 
+    ON u.userID = s.userID 
+ORDER BY u.userID;
+
+SELECT * FROM (
+SELECT userID FROM Users
+EXCEPT
+SELECT userID FROM subscription
+) AS display ORDER BY userID;
+
+SELECT userID FROM Users 
+EXCEPT 
+SELECT userID FROM attending;
