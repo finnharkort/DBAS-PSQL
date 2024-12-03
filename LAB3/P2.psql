@@ -1,0 +1,15 @@
+WITH amountOfSpeakers AS(
+    SELECT
+        Language,
+        Percentage,
+        (Percentage*Population)/100 AS speakers
+    FROM Spoken
+    JOIN Country ON Spoken.Country = Country.code
+    WHERE Percentage IS NOT NULL
+)
+SELECT
+    Language,
+    ROUND(SUM(speakers)) numberSpeaker
+FROM amountOfSpeakers
+GROUP BY Language
+ORDER BY numberSpeaker DESC;

@@ -12,10 +12,10 @@ WITH two_way_border AS (
 SELECT * FROM (
     SELECT 
         c.Name,
-        RANK() OVER (ORDER BY COUNT(twb.Country2) ASC) AS rank
+        RANK() OVER (ORDER BY COUNT(twb.Country2) ASC) AS num
     FROM two_way_border twb
     JOIN Country c 
         ON twb.Country1 = c.Code
     GROUP BY twb.Country1, c.Name
 ) AS border_rank
-WHERE rank = 1;
+WHERE num = 1;

@@ -1,7 +1,6 @@
 WITH RECURSIVE relevantRivers AS(
     SELECT
         name AS river,
-        river AS destination,
         River.length AS totlength,
         name AS finalDestination,
         1 AS numrivers,
@@ -11,7 +10,6 @@ WITH RECURSIVE relevantRivers AS(
     UNION ALL
     SELECT 
         name AS river,
-        River.river AS destination,
         River.length + relevantRivers.totlength AS totlength,
         finalDestination,
         relevantRivers.numrivers+1 AS numrivers,
@@ -28,8 +26,8 @@ largestRivers AS(
 )
 SELECT
     RANK() OVER (ORDER BY largestRivers.numrivers) AS rank,
-    largestRivers.numrivers,
     relevantRivers.path,
+    largestRivers.numrivers,
     relevantRivers.totlength
 FROM largestRivers
 JOIN relevantRivers ON largestRivers.finalDestination = relevantRivers.finalDestination AND largestRivers.numrivers = relevantRivers.numrivers
