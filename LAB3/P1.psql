@@ -9,13 +9,17 @@ WITH two_way_border AS (
         Country1
     FROM borders
 )
-SELECT * FROM (
-    SELECT 
-        c.Name,
-        RANK() OVER (ORDER BY COUNT(twb.Country2) ASC) AS num
-    FROM two_way_border twb
-    JOIN Country c 
-        ON twb.Country1 = c.Code
-    GROUP BY twb.Country1, c.Name
-) AS border_rank
-WHERE num = 1;
+SELECT
+    Name,
+    num
+    FROM (
+        SELECT 
+            c.Name,
+            COUNT(twb.Country2) AS num,
+            RANK() OVER (ORDER BY COUNT(twb.Country2) ASC) AS rank
+        FROM two_way_border twb
+        JOIN Country c 
+            ON twb.Country1 = c.Code
+        GROUP BY twb.Country1, c.Name
+    ) AS border_rank
+WHERE rank = 1;

@@ -12,16 +12,19 @@ WITH RECURSIVE two_way_border AS (
 steps_from_sweden AS (
     SELECT 
         Country2 AS ConnectedCountry,
-        1 AS count
+        1 AS count,
+        ARRAY['S', Country2]::character varying[] AS visited
     FROM two_way_border
     WHERE Country1 = 'S'
     UNION ALL
     SELECT 
         twb.Country2 AS ConnectedCountry,
-        count + 1 AS Count
+        count + 1 AS Count,
+        sfs.visited || twb.Country2 AS visited
     FROM two_way_border twb
     JOIN steps_from_sweden sfs ON twb.Country1 = sfs.ConnectedCountry
-    WHERE Country2 != 'S' AND count < 5
+    WHERE NOT twb.Country2 = ANY (sfs.visited)  
+      AND sfs.count < 5 
 )
 SELECT
     ConnectedCountry AS code,
