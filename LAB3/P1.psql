@@ -5,8 +5,8 @@ WITH two_way_border AS (
     FROM borders
     UNION ALL
     SELECT 
-        Country2 AS Country1, 
-        Country1 AS Country2
+        Country2, 
+        Country1
     FROM borders
 )
 SELECT * FROM (
