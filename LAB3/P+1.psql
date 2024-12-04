@@ -5,13 +5,13 @@ WITH RECURSIVE two_way_border AS (
     FROM borders
     UNION ALL
     SELECT 
-        Country2 AS Country1, 
-        Country1 AS Country2
+        Country2, 
+        Country1
     FROM borders
 ),
 steps_from_sweden AS (
     SELECT 
-        Country2 AS Second,
+        Country2 AS CurCountry,
         1 AS count
     FROM two_way_border
     WHERE Country1 = 'S'
@@ -20,14 +20,14 @@ steps_from_sweden AS (
         twb.Country2 AS Second,
         count + 1 AS Count
     FROM two_way_border twb
-    JOIN steps_from_sweden sfs ON twb.Country1 = sfs.Second
+    JOIN steps_from_sweden sfs ON twb.Country1 = sfs.CurCountry
     WHERE Country2 != 'S' AND count < 5
 )
 SELECT
-    Second AS code,
+    CurCountry AS code,
     Name,
     MIN(count) AS min 
 FROM steps_from_sweden
-JOIN Country ON Second = Code
-GROUP BY Name, Second
+JOIN Country ON CurCountry = Code
+GROUP BY Name, CurCountry
 ORDER BY min ASC;
