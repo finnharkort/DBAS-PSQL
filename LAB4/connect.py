@@ -1,4 +1,5 @@
 import psycopg2
+from tabulate import tabulate
 
 """
 Note: It's essential never to include database credentials in code pushed to GitHub. 
@@ -10,38 +11,80 @@ Remember to follow best practices for secure coding in production environments.
 # Acquire a connection to the database by specifying the credentials.
 conn = psycopg2.connect(
     host="psql-dd1368-ht23.sys.kth.se", 
-    database="--Please fill--",
-    user="--Please fill--",
-    password="--Please fill--")
+    database="nikofinnlabb3",
+    user="finnhb",
+    password="p3V4ez0X")
 print(conn)
 
 # Create a cursor. The cursor allows you to execute database queries.
 cur = conn.cursor()
 
+def get_airport():
+    code = input("Please enter a IATA or name: ")
+    if code == 'rlan':
+        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = 'ARN'"
+    else:
+        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = '{code}' OR a.Name = '{code}'"
+    
+    display_query_results(cur, query, "Results from ", code)
 
-# Simple function to get all books with a specific genre.
-def get_book_title_by_genre():
-    genre = input("Please enter a genre: ")
-    query = f"SELECT books.title FROM books LEFT JOIN genre ON books.bookid = genre.bookid WHERE genre.genre = '{genre}'"
+def get_language_speakers():
+    language = input("Please enter a language: ")
+    query = f"""
+                SELECT
+                    Country.Name,
+                    ROUND((Percentage*Population)/100, 0) AS speakers
+                FROM Spoken
+                JOIN Country 
+                    ON Spoken.Country = Country.code
+                WHERE Percentage IS NOT NULL AND Language = '{language}'
+                ORDER BY speakers DESC
+            """
+    display_query_results(cur, query, "All countries speaking ", language)
+
+def print_menu():
+    print("1. Search for airport")
+    print("2. Search for language")
+    print("3. Create desert")
+    print("0. Quit")
+    print()
+
+def display_query_results(cur, query, message, keyword):
     cur.execute(query)
-    result = cur.fetchall()
-    titles = [row[0] for row in result]
 
-    print(titles)
+    results = cur.fetchall()
+
+    columns = [desc[0] for desc in cur.description]
+
+    table = tabulate(results, headers=columns, tablefmt="pretty")
+
+    print()
+    print(f"{message} {keyword}:")
+    print(table)
+    print()
+    
+    input("Press any key to continue: ")
+    print()
+
+def menu():
+    while(1):
+        print_menu()
+        menu_input = int(input("Select a menu choice: "))
+        match menu_input:
+            case 1:
+                get_airport()
+            case 2:
+                get_language_speakers()
+            case 3:
+                print("Not implemented")
+                print()
+                input("Press any key to continue: ")
+                print()
+            case 0:
+                exit()
+            case _:
+                print("{menu_input} is not a valid input")
 
 if __name__ == "__main__":
-    # Example:
-    # Execute a query which returns all genres including the genre id.
-    cur.execute("SELECT * from genre ")
-
-    # Print the first row returned.
-    print(cur.fetchone())
-    
-    # Print the next row returned.
-    print(cur.fetchone())
-    
-    # Print all the remaining rows returned.
-    print(cur.fetchall())
-    
-    # Close the connection to the database.
+    menu()
     conn.close()
