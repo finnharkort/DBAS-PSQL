@@ -27,7 +27,7 @@ def get_airport():
     else:
         query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = '{code}' OR a.Name = '{code}'"
     
-    display_query_results(cur, query, "Results from ", code)
+    display_query_results(cur, query, f"Results from {code}: ")
 
 def get_language_speakers():
     language = input("Please enter a language: ")
@@ -41,7 +41,7 @@ def get_language_speakers():
         WHERE Percentage IS NOT NULL AND Language = '{language}'
         ORDER BY speakers DESC
         """
-    display_query_results(cur, query, "All countries speaking ", language)
+    display_query_results(cur, query, f"All countries speaking {language}: ")
 
 def print_menu():
     print("1. Search for airport")
@@ -52,7 +52,7 @@ def print_menu():
     print("0. Quit")
     print()
 
-def display_query_results(cur, query, message, keyword):
+def display_query_results(cur, query, message):
     cur.execute(query)
 
     results = cur.fetchall()
@@ -62,7 +62,7 @@ def display_query_results(cur, query, message, keyword):
     table = tabulate(results, headers=columns, tablefmt="pretty")
 
     print()
-    print(f"{message} {keyword}")
+    print(f"{message}")
     print(table)
     print()
     
@@ -186,7 +186,7 @@ def create_desert():
 
     
 
-    display_query_results(cur, query, f"Desert '{name}' and the provinces it spans: ", "")
+    display_query_results(cur, query, f"Desert '{name}' and the provinces it spans: ")
     print()
 
 def get_deserts():
@@ -207,7 +207,7 @@ def get_deserts():
             desert.name
     """
 
-    display_query_results(cur, query, f"Displaying all deserts and the provinces they span: ", "")
+    display_query_results(cur, query, f"Displaying all deserts and the provinces they span: ")
 
 def menu():
     while(1):
@@ -225,7 +225,7 @@ def menu():
                 get_deserts()
             case 5:
                 query = input("Write SELECT statement: ")
-                display_query_results(cur, query, "", "")
+                display_query_results(cur, query, "")
             case 0:
                 exit()
             case _:
