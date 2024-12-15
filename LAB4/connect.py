@@ -111,7 +111,7 @@ def create_desert():
     desert_query_results = get_query_results(cur, desert_query)
 
     if desert_exeeds_maximum_provinces(name):
-        print("A desert can only span a maximum of 9 provinces.")
+        print("Desert not created: A desert can only span a maximum of 9 provinces.")
         input("Press any key to continue: ")
         return 
         
