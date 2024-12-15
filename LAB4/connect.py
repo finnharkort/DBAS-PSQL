@@ -85,6 +85,30 @@ def desert_exeeds_maximum_provinces(name):
         return True
     else:
         return False
+    
+def country_exceeds_maximum_deserts(country_name):
+    num_deserts_query = f"""
+        SELECT 
+            Country, 
+            COUNT(DISTINCT Desert) AS DesertCount
+        FROM 
+            geo_Desert
+        WHERE 
+            Country = '{country_name}'
+        GROUP BY 
+            Country
+        ORDER BY 
+            DesertCount DESC;
+        """
+    result = get_query_results(cur, num_deserts_query)
+
+    if result:
+        if result[0][1] >= 9:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 def create_desert():
     desert_exists = False
@@ -144,8 +168,13 @@ def create_desert():
 
     country = input("Enter country: ")
 
+    if country_exceeds_maximum_deserts(country):
+        print("Desert not created: A country can only contain a maximum of 20 separate deserts.")
+        input("Press any key to continue: ")
+        return 
+
     if country not in (row[1] for row in province_query_results):
-        print("Country doesn't exist")
+        print("Desert not created: Country doesn't exist")
         return
     
     if not(desert_exists):
@@ -184,8 +213,23 @@ def create_desert():
             desert.Name = '{name}'
     """
 
-    
+    num_deserts_query = f"""
+        SELECT 
+            Country, 
+            COUNT(DISTINCT Desert) AS DesertCount
+        FROM 
+            geo_Desert
+        WHERE 
+            Country = 'AUS'
+        GROUP BY 
+            Country
+        ORDER BY 
+            DesertCount DESC
 
+        """
+    
+    result = get_query_results(cur, num_deserts_query)
+    print(result[0][1])
     display_query_results(cur, query, f"Desert '{name}' and the provinces it spans: ")
     print()
 

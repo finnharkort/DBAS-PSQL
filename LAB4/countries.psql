@@ -1,0 +1,1 @@
+SELECT Country, Count(DISTINCT Desert) FROM geo_Desert GROUP BY Country ORDER BY Count(DISTINCT Desert) DESC;
