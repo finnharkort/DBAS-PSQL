@@ -22,10 +22,10 @@ cur = conn.cursor()
 
 def get_airport():
     code = input("Please enter a IATA or name: ")
-    if code == 'rlan':
-        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = 'ARN'"
-    else:
-        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = '{code}' OR a.Name = '{code}'"
+    # if code == 'rlan':
+    #     query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = 'ARN'"
+    # else:
+    #     query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = '{code}' OR a.Name = '{code}'"
     
     display_query_results(cur, query, f"Results from {code}: ")
 
