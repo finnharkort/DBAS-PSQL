@@ -32,6 +32,7 @@ def key_continue(message):
     input("Press any key to continue: ")
     print()
 
+# displays a table using tabular
 def display_query_results(cur, query, message):
     cur.execute(query)
 
@@ -48,14 +49,17 @@ def display_query_results(cur, query, message):
     input("Press any key to continue: ")
     print()
 
+# returns cur.fetchall() for a given query
 def get_query_results(query):
-        cur.execute(query)
-        return cur.fetchall()
+    cur.execute(query)
+    return cur.fetchall()
 
 def get_country_code_by_name(country_name):
-    query = f"SELECT Name, Code FROM Country WHERE Name LIKE '%{country_name}%'"
+    query = f"SELECT Name, Code FROM Country WHERE Name LIKE '%{country_name}%'" # using wildcard
     result = get_query_results(query)
     
+    # result [0][0] is country_name
+    # result [0][1] is country_code
     if result: 
         country_name = result[0][0]
         print(f"Selected Country: '{country_name}'")
