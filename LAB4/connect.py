@@ -70,8 +70,6 @@ def get_country_code_by_name(country_name):
     else:
         return ""
     
-def check_desert_exists()
-    
 ######################################
     
 ############ task 1 and 2 ############
@@ -247,19 +245,19 @@ def create_desert():
     if desert_exists:
         print(f"Note: Will only update geographical information about '{desert_name}', since the desert '{desert_name}' already exists.")
 
-    # asks for area (if we are creating a new desert. no constraints)
+    # asks for area (if we are creating a new desert. already created deserts cant have their area changed. no constraints)
     area = 0
     if not desert_exists:
         area = input("Enter area: ")
         
-    # asks for province (no constraints, since they are dependant on country as well)
+    # asks for province (no constraints, since we need to await country input to check any constraints related to country-province)
     province = input("Enter province: ")
 
     #asks for country (user input by country_name, but fetches the country_code)
     if not (country_code := select_country(desert_name, province, area, desert_query_results)): 
         return
     
-    #asks for coordinates
+    #asks for coordinates. already created deserts cant have their coordinates changed. no constraints
     if not(desert_exists):
         latitude = input("Enter latitude: ")
         longitude = input("Enter latitude: ")   
@@ -288,7 +286,9 @@ def print_menu():
 
 def menu():
     print_menu()
+
     menu_input = int(input("Select a menu choice: "))
+
     match menu_input:
         case 1:
             search_for_airport()
@@ -296,11 +296,8 @@ def menu():
             search_for_language()
         case 3:
             create_desert()
-        case 4:
+        case 4: # displays all deserts
             display_query_results(cur, get_all_deserts_query(), f"Displaying all deserts and the provinces they span: ")
-        case 5:
-            query = input("Write SELECT statement: ")
-            display_query_results(cur, query, "")
         case 0:
             exit()
         case _:
