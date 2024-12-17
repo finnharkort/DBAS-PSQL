@@ -1,6 +1,5 @@
 import psycopg2
 from tabulate import tabulate
-from decimal import Decimal
 
 """
 Note: It's essential never to include database credentials in code pushed to GitHub. 
@@ -22,10 +21,7 @@ cur = conn.cursor()
 
 def get_airport():
     code = input("Please enter a IATA or name: ")
-    if code == 'rlan':
-        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = 'ARN'"
-    else:
-        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = '{code}' OR a.Name = '{code}'"
+    query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode LIKE '%{code}%' OR a.Name LIKE '%{code}%'"
     
     display_query_results(cur, query, f"Results from {code}: ")
 
@@ -103,7 +99,7 @@ def country_exceeds_maximum_deserts(country_name):
     result = get_query_results(cur, num_deserts_query)
 
     if result:
-        if result[0][1] >= 9:
+        if result[0][1] >= 20:
             return True
         else:
             return False
