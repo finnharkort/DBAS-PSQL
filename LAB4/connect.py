@@ -10,6 +10,8 @@ However, in this particular exercise, we are allowing it for simplicity, as the 
 Remember to follow best practices for secure coding in production environments.
 """
 
+########## database connection ########
+
 # Acquire a connection to the database by specifying the credentials.
 conn = psycopg2.connect(
     host="psql-dd1368-ht23.sys.kth.se", 
@@ -21,7 +23,7 @@ print(conn)
 # Create a cursor. The cursor allows you to execute database queries.
 cur = conn.cursor()
 
-desert_query_results = ""
+######################################
 
 desert_exists = False
 
@@ -67,6 +69,8 @@ def get_country_code_by_name(country_name):
         return country_code
     else:
         return ""
+    
+def check_desert_exists()
     
 ######################################
     
@@ -169,14 +173,8 @@ def country_province_exists(country_code, province):
     
 # handles constraints related to desert name only
 def select_desert_name():
-    global desert_exists
-    global desert_query_results
 
     desert_name = input("Enter name: ")
-
-    desert_query_results = get_query_results(get_all_deserts_query())
-
-    desert_exists = desert_name in (row[0] for row in desert_query_results)
 
     if desert_exeeds_maximum_provinces(desert_name):
         key_continue("Desert not created: A desert can only span a maximum of 9 provinces.")
@@ -185,7 +183,7 @@ def select_desert_name():
     return desert_name
     
 # handles constraints related to the selection of country and/or province.
-def select_country(desert_name, province, area):
+def select_country(desert_name, province, area, desert_query_results):
     country_name = input("Enter country name: ")
 
     country_code = get_country_code_by_name(country_name)
@@ -231,14 +229,21 @@ def insert_geo_desert(desert_name, country_code, province):
         """
     cur.execute(insert_geo_desert)
 
+######################################
+
 # goes through each user input step and asserts every relevant constraint
 def create_desert():
+
+    desert_query_results = get_query_results(get_all_deserts_query())
 
     # asks for desert_name
     if not (desert_name := select_desert_name()): 
         return
+    
+    # checks if desert_name exists in any of the resulting tuples from desert_query_results
+    desert_exists = desert_name in (row[0] for row in desert_query_results)
 
-    # displays a message that lets the user know that they are updating an existing desert, if the desert_name already exists
+    # displays a message that lets the user know that they are updating an existing desert if the desert_name already exists in the desert schema
     if desert_exists:
         print(f"Note: Will only update geographical information about '{desert_name}', since the desert '{desert_name}' already exists.")
 
@@ -250,8 +255,8 @@ def create_desert():
     # asks for province (no constraints, since they are dependant on country as well)
     province = input("Enter province: ")
 
-    #asks for country (by name, but gets the code)
-    if not (country_code := select_country(desert_name, province, area)): 
+    #asks for country (user input by country_name, but fetches the country_code)
+    if not (country_code := select_country(desert_name, province, area, desert_query_results)): 
         return
     
     #asks for coordinates
