@@ -25,8 +25,6 @@ cur = conn.cursor()
 
 ######################################
 
-desert_exists = False
-
 ########## helper functions ##########
 
 def key_continue(message):
@@ -228,6 +226,8 @@ def insert_geo_desert(desert_name, country_code, province):
     cur.execute(insert_geo_desert)
 
 ######################################
+
+########### create desert ############
 
 # goes through each user input step and asserts every relevant constraint
 def create_desert():
