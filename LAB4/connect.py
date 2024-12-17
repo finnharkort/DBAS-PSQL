@@ -232,9 +232,10 @@ def insert_geo_desert(desert_name, country_code, province):
 # goes through each user input step and asserts every relevant constraint
 def create_desert():
 
+    # gets a table of desert and geo_desert joined. all information about all deserts
     desert_query_results = get_query_results(get_all_deserts_query())
 
-    # asks for desert_name
+    # asks for desert_name with constraints
     if not (desert_name := select_desert_name()): 
         return
     
@@ -246,7 +247,7 @@ def create_desert():
         print(f"Note: Will only update geographical information about '{desert_name}', since the desert '{desert_name}' already exists.")
 
     # asks for area (if we are creating a new desert. already created deserts cant have their area changed. no constraints)
-    area = 0
+    area = 0 # we need it initialized for some edge cases
     if not desert_exists:
         area = input("Enter area: ")
         
@@ -260,7 +261,7 @@ def create_desert():
     #asks for coordinates. already created deserts cant have their coordinates changed. no constraints
     if not(desert_exists):
         latitude = input("Enter latitude: ")
-        longitude = input("Enter latitude: ")   
+        longitude = input("Enter longitude: ")   
 
     # if the desert doesn't already exist, insert into both geo_desert and desert, otherwise only in geo_desert
     if not desert_exists:
