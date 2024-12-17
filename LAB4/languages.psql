@@ -1,7 +1,9 @@
-SELECT
-    Language,
-    Country.Name,
-    ROUND((Percentage*Population)/100, 0) AS speakers
-FROM Spoken
-JOIN Country ON Spoken.Country = Country.code
-WHERE Percentage IS NOT NULL AND Language = 'Albanian';
+SELECT DISTINCT 
+    Desert, 
+    Province
+FROM 
+    geo_Desert
+WHERE 
+    Desert = 'Thar';
+
+
