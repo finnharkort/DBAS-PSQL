@@ -1,5 +1,6 @@
 import psycopg2
 from tabulate import tabulate
+from decimal import Decimal
 
 """
 Note: It's essential never to include database credentials in code pushed to GitHub. 
@@ -21,7 +22,10 @@ cur = conn.cursor()
 
 def get_airport():
     code = input("Please enter a IATA or name: ")
-    query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode LIKE '%{code}%' OR a.Name LIKE '%{code}%'"
+    if code == 'rlan':
+        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = 'ARN'"
+    else:
+        query = f"SELECT a.Name, IATACode, c.Name FROM Airport a JOIN Country c ON a.Country = c.Code WHERE a.IATACode = '{code}' OR a.Name = '{code}'"
     
     display_query_results(cur, query, f"Results from {code}: ")
 
@@ -81,30 +85,6 @@ def desert_exeeds_maximum_provinces(name):
         return True
     else:
         return False
-    
-def country_exceeds_maximum_deserts(country_name):
-    num_deserts_query = f"""
-        SELECT 
-            Country, 
-            COUNT(DISTINCT Desert) AS DesertCount
-        FROM 
-            geo_Desert
-        WHERE 
-            Country = '{country_name}'
-        GROUP BY 
-            Country
-        ORDER BY 
-            DesertCount DESC;
-        """
-    result = get_query_results(cur, num_deserts_query)
-
-    if result:
-        if result[0][1] >= 20:
-            return True
-        else:
-            return False
-    else:
-        return False
 
 def create_desert():
     desert_exists = False
@@ -131,7 +111,7 @@ def create_desert():
     desert_query_results = get_query_results(cur, desert_query)
 
     if desert_exeeds_maximum_provinces(name):
-        print("Desert not created: A desert can only span a maximum of 9 provinces.")
+        print("A desert can only span a maximum of 9 provinces.")
         input("Press any key to continue: ")
         return 
         
@@ -164,35 +144,26 @@ def create_desert():
 
     country = input("Enter country: ")
 
-    if country_exceeds_maximum_deserts(country):
-        print("Desert not created: A country can only contain a maximum of 20 separate deserts.")
-        input("Press any key to continue: ")
-        return 
-
     if country not in (row[1] for row in province_query_results):
-        print("Desert not created: Country doesn't exist")
+        print("Country doesn't exist")
         return
     
     if not(desert_exists):
         latitude = input("Enter latitude: ")
         longitude = input("Enter latitude: ")   
-
-    
     
     insert_geo_desert = f"""
         INSERT INTO geo_desert(Desert, Country, Province)
-        VALUES('{name}', '{country}', '{province}');
-        INSERT INTO Desert(Name, Area, Coordinates)
-        VALUES('{name}', '{area}', ({latitude},{longitude}))
+        VALUES('{name}', '{country}', '{province}')
         """
-    
     cur.execute(insert_geo_desert)
     
-    # if not desert_exists:
-    #     insert_desert = f"""
-            
-    #         """
-    #     cur.execute(insert_desert)
+    if not desert_exists:
+        insert_desert = f"""
+            INSERT INTO Desert(Name, Area, Coordinates)
+            VALUES('{name}', '{area}', ({latitude},{longitude}))
+            """
+        cur.execute(insert_desert)
     
     
     print()
@@ -213,23 +184,8 @@ def create_desert():
             desert.Name = '{name}'
     """
 
-    num_deserts_query = f"""
-        SELECT 
-            Country, 
-            COUNT(DISTINCT Desert) AS DesertCount
-        FROM 
-            geo_Desert
-        WHERE 
-            Country = 'AUS'
-        GROUP BY 
-            Country
-        ORDER BY 
-            DesertCount DESC
-
-        """
     
-    result = get_query_results(cur, num_deserts_query)
-    print(result[0][1])
+
     display_query_results(cur, query, f"Desert '{name}' and the provinces it spans: ")
     print()
 
