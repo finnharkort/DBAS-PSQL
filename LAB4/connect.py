@@ -25,6 +25,9 @@ cur = conn.cursor()
 
 ######################################
 
+# set True if you want to save inserts in database
+commit_to_database = False
+
 ########## helper functions ##########
 
 def key_continue(message):
@@ -219,18 +222,25 @@ def select_country(desert_name, province, area, desert_query_results):
 ############## inserts ###############
 
 def insert_desert(desert_name, area, latitude, longitude):
-    insert_desert = f"""
+    insert_desert = """
         INSERT INTO Desert(Name, Area, Coordinates)
-        VALUES('{desert_name}', '{area}', ({latitude},{longitude}))
-        """
-    cur.execute(insert_desert)
+        VALUES(%s, %s, (%s, %s))
+    """
+    parameters = (desert_name, area, longitude, latitude)
+    cur.execute(insert_desert, parameters)
+    if commit_to_database:
+        conn.commit()
 
 def insert_geo_desert(desert_name, country_code, province):
-    insert_geo_desert = f"""
+    insert_geo_desert = """
         INSERT INTO geo_desert(Desert, Country, Province)
-        VALUES('{desert_name}', '{country_code}', '{province}')
-        """
-    cur.execute(insert_geo_desert)
+        VALUES(%s, %s, %s)
+    """
+    parameters = (desert_name, country_code, province)
+    cur.execute(insert_geo_desert, parameters)
+    if commit_to_database:
+        conn.commit()
+
 
 ######################################
 
@@ -310,7 +320,6 @@ def print_menu():
     print("2. Search for language")
     print("3. Create desert")
     print("4. Display all deserts")
-    print("5. Write own SELECT statement (debug purposes)")
     print("0. Quit")
     print()
 
