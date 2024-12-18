@@ -80,16 +80,16 @@ def get_country_code_by_name(country_name):
 def search_for_airport():
     code = input("Please enter IATA or name: ")
 
-    query = get_all_airports_query(code)
+    query, parameters = get_all_airports_query(code)
 
-    display_query_results(*query, f"Results from {code}: ")
+    display_query_results(query, parameters, f"Results from {code}: ")
 
 def search_for_language():
     language = input("Please enter a language: ")
 
-    query = get_all_language_speakers_query(language)
+    query, parameters= get_all_language_speakers_query(language)
     
-    display_query_results(*query, f"All countries speaking {language}: ")
+    display_query_results(query, parameters, f"All countries speaking {language}: ")
 
 ######################################
 
@@ -129,7 +129,7 @@ def country_exceeds_maximum_deserts(country_code):
         FROM 
             geo_Desert
         WHERE 
-            Country = '{country_code}'
+            Country = %s
         GROUP BY 
             Country
         """
@@ -199,7 +199,7 @@ def select_country(desert_name, province, area, desert_query_results):
         key_continue("Desert not created. This desert already spans this province and country combination")
         return False
 
-    # checks if a country has more than 30 separate deserts spanning over it
+    # checks if a country has more than 20 separate deserts spanning over it
     if country_exceeds_maximum_deserts(country_code):
         key_continue("Desert not created: A country can only contain a maximum of 20 separate deserts.")
         return False
@@ -338,7 +338,7 @@ def menu():
         case 4: # displays all deserts
             display_query_results(get_all_deserts_query(), "", f"Displaying all deserts and the provinces they span: ")
         case 5: 
-            injection_test()
+            create_hej()
         case 0:
             exit()
         case _:
