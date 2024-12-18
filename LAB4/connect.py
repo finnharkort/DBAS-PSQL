@@ -59,7 +59,7 @@ def get_query_results(query, parameters):
 
 # also changes country_name with wildcard
 def get_country_code_by_name(country_name):
-    query = f"SELECT Name, Code FROM Country WHERE Name LIKE %s" # using wildcard
+    query = "SELECT Name, Code FROM Country WHERE Name LIKE %s" # using wildcard
     parameters = ('%' + country_name + '%',)
     result = get_query_results(query, parameters)
     
@@ -97,7 +97,7 @@ def search_for_language():
 
 # P+ 1 a)
 def desert_exeeds_maximum_provinces(desert_name):
-    query = f"""
+    query = """
         SELECT 
             Desert, 
             COUNT(DISTINCT Province) AS ProvinceCount
@@ -122,7 +122,7 @@ def desert_exeeds_maximum_provinces(desert_name):
     
 # P+ 1 b)
 def country_exceeds_maximum_deserts(country_code):
-    query = f"""
+    query = """
         SELECT 
             Country, 
             COUNT(DISTINCT Desert) AS DesertCount
@@ -295,10 +295,10 @@ def create_desert():
 
 def injection_test():
     select_query = "SELECT * FROM hej"
-    display_query_results("", select_query, "")
+    display_query_results(select_query, "", "")
     usersearch = input("Input mountain: ")
     # dangerous usersearch: '; DROP TABLE fines; --
-    query = f"SELECT * FROM mountain WHERE name LIKE %s"
+    query = "SELECT * FROM mountain WHERE name LIKE %s"
     parameters = ('%' + usersearch + '%',)
     print("Actual query:", query)
     cur.execute(query, parameters)

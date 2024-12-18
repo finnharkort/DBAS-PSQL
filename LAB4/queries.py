@@ -22,7 +22,7 @@ def get_desert_query(desert_name):
 
 
 def get_all_deserts_query():
-    query = f"""
+    query = """
         SELECT 
             desert.name AS desert_name, 
             desert.area, 
@@ -40,7 +40,7 @@ def get_all_deserts_query():
     return query
 
 def get_provinces_query(country, province):
-    query = f"""
+    query = """
         SELECT 
             Name,
             Country,
