@@ -1,9 +1,0 @@
-SELECT DISTINCT 
-    Desert, 
-    Province
-FROM 
-    geo_Desert
-WHERE 
-    Desert = 'Thar';
-
-
