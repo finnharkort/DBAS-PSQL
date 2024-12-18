@@ -33,8 +33,8 @@ def key_continue(message):
     print()
 
 # displays a table using tabular
-def display_query_results(cur, query, message):
-    cur.execute(query)
+def display_query_results(query, parameters, message):
+    cur.execute(query, parameters)
 
     results = cur.fetchall()
 
@@ -50,13 +50,15 @@ def display_query_results(cur, query, message):
     print()
 
 # returns cur.fetchall() for a given query
-def get_query_results(query):
-    cur.execute(query)
+def get_query_results(query, parameters):
+    cur.execute(query, parameters)
     return cur.fetchall()
 
+# also changes country_name with wildcard
 def get_country_code_by_name(country_name):
-    query = f"SELECT Name, Code FROM Country WHERE Name LIKE '%{country_name}%'" # using wildcard
-    result = get_query_results(query)
+    query = f"SELECT Name, Code FROM Country WHERE Name LIKE %s" # using wildcard
+    parameters = ('%' + country_name + '%',)
+    result = get_query_results(query, parameters)
     
     # result [0][0] is country_name
     # result [0][1] is country_code
@@ -64,7 +66,7 @@ def get_country_code_by_name(country_name):
         country_name = result[0][0]
         print(f"Selected Country: '{country_name}'")
         country_code = result[0][1]
-        return country_code
+        return country_code, country_name
     else:
         return ""
     
@@ -77,14 +79,14 @@ def search_for_airport():
 
     query = get_all_airports_query(code)
 
-    display_query_results(cur, query, f"Results from {code}: ")
+    display_query_results(*query, f"Results from {code}: ")
 
 def search_for_language():
     language = input("Please enter a language: ")
 
-    query = get_all_language_speakers_query
+    query = get_all_language_speakers_query(language)
     
-    display_query_results(cur, query, f"All countries speaking {language}: ")
+    display_query_results(*query, f"All countries speaking {language}: ")
 
 ######################################
 
@@ -98,12 +100,14 @@ def desert_exeeds_maximum_provinces(desert_name):
             COUNT(DISTINCT Province) AS ProvinceCount
         FROM 
             geo_Desert
-        WHERE desert = '{desert_name}'
+        WHERE desert = %s
         GROUP BY 
             Desert
         """
+    parameters = (desert_name,)
 
-    result = get_query_results(query)
+    result = get_query_results(query, parameters)
+
 
     if result:
         if result[0][1] >= 9:
@@ -126,12 +130,14 @@ def country_exceeds_maximum_deserts(country_code):
         GROUP BY 
             Country
         """
-        
-    result = get_query_results(query)
+
+    parameters = (country_code,)    
+
+    result = get_query_results(query, parameters)
 
     # checks that the second column (amount of distinct deserts for a given country) of the first tuple (the only tuple in this case) is equal to or above 20
     if result:
-        if result[0][1] >= 20:
+        if result[0][1] >= 20: # change to 8 at lab if we want to demonstrate
             return True
         else:
             return False
@@ -143,7 +149,7 @@ def country_exceeds_maximum_deserts(country_code):
 # if the use-inputed area > 30 * province area -> return true
 def desert_area_exceeds_province_area(province, country, area):
 
-    results = get_query_results(get_provinces_query(province, country))
+    results = get_query_results(*get_provinces_query(province, country))
     
     area = Decimal(area)
     province_area = Decimal(results[0][2])
@@ -156,7 +162,7 @@ def desert_area_exceeds_province_area(province, country, area):
 # P 2 c) constraint
 # checks that the country-province combination exists in the province schema 
 def country_province_exists(country_code, province):
-    results = get_query_results(get_provinces_query(country_code, province))
+    results = get_query_results(*get_provinces_query(country_code, province))
 
     if results:
         return True
@@ -182,7 +188,8 @@ def select_desert_name():
 def select_country(desert_name, province, area, desert_query_results):
     country_name = input("Enter country name: ")
 
-    country_code = get_country_code_by_name(country_name)
+    # also changes country_name with wildcard
+    country_code, country_name = get_country_code_by_name(country_name)
 
     # checks that we do not run into primary key constraint
     if any(row[0] == desert_name and row[4] == province and row[3] == country_name for row in desert_query_results):
@@ -233,7 +240,7 @@ def insert_geo_desert(desert_name, country_code, province):
 def create_desert():
 
     # gets a table of desert and geo_desert joined. all information about all deserts
-    desert_query_results = get_query_results(get_all_deserts_query())
+    desert_query_results = get_query_results(get_all_deserts_query(), "")
 
     # asks for desert_name with constraints
     if not (desert_name := select_desert_name()): 
@@ -270,7 +277,29 @@ def create_desert():
     
     # display all the information about the desert the user has created/updated
     print()
-    display_query_results(cur, get_desert_query(desert_name), f"Desert '{desert_name}' and the provinces it spans: ")
+    display_query_results(*get_desert_query(desert_name), f"Desert '{desert_name}' and the provinces it spans: ")
+
+######################################
+
+########### injection test ###########
+
+def injection_test():
+    select_query = "SELECT * FROM hej"
+    display_query_results("", select_query, "")
+    usersearch = input("Input mountain: ")
+    # dangerous usersearch: '; DROP TABLE fines; --
+    query = f"SELECT * FROM mountain WHERE name LIKE %s"
+    parameters = ('%' + usersearch + '%',)
+    print("Actual query:", query)
+    cur.execute(query, parameters)
+    #conn.commit()
+
+def create_hej():
+    query = "CREATE TABLE hej (Name VARCHAR(4))"
+    cur.execute(query)
+    select_query = "SELECT * FROM hej"
+    display_query_results("", select_query, "")
+    conn.commit()
 
 ######################################
 
@@ -298,7 +327,9 @@ def menu():
         case 3:
             create_desert()
         case 4: # displays all deserts
-            display_query_results(cur, get_all_deserts_query(), f"Displaying all deserts and the provinces they span: ")
+            display_query_results(get_all_deserts_query(), "", f"Displaying all deserts and the provinces they span: ")
+        case 5: 
+            injection_test()
         case 0:
             exit()
         case _:

@@ -1,5 +1,5 @@
 def get_desert_query(desert_name):
-    query = f"""
+    query = """
         SELECT 
             desert.name AS desert_name, 
             desert.area, 
@@ -13,9 +13,13 @@ def get_desert_query(desert_name):
         JOIN 
             country ON geo_desert.country = country.code 
         WHERE 
-            desert.Name = '{desert_name}'
+            desert.Name = %s
     """
-    return query
+    
+    parameters = (desert_name,)
+    
+    return query, parameters
+
 
 def get_all_deserts_query():
     query = f"""
@@ -43,30 +47,16 @@ def get_provinces_query(country, province):
             Area
         FROM Province
         WHERE 
-            Name = '{province}'
-            AND Country = '{country}'
+            Name = %s
+            AND Country LIKE %s
         """
     
-    return query
-
-def get_areas_query(desert_name):
-    query = f"""
-        SELECT 
-            desert.area AS desertArea,
-            province.area AS provinceArea
-        FROM 
-            Desert
-        JOIN 
-            geo_desert ON Desert.name = desert
-        JOIN 
-            province ON province = province.name
-        WHERE 
-            desert.name = '{desert_name}'
-        """
-    return query
+    parameters = (province, '%' + country + '%')
+    
+    return query, parameters
 
 def get_all_airports_query(code):
-    query = f"""
+    query = """
         SELECT 
             a.Name AS AirportName, 
             a.IATACode, 
@@ -78,24 +68,28 @@ def get_all_airports_query(code):
         ON 
             a.Country = c.Code
         WHERE 
-            a.IATACode = '{code}' 
-            OR a.Name LIKE '%{code}%';
-        """
-    return query
+            a.IATACode = %s 
+            OR a.Name LIKE %s;
+    """
+    parameters = (code, '%' + code + '%')
+    return query, parameters
+
 
 def get_all_language_speakers_query(language):
-    query = f"""
+    query = """
         SELECT
             Country.Name,
-            ROUND((Percentage*Population)/100, 0) AS speakers
+            ROUND((Percentage*Population)/100, 0) AS speakers,
+            Spoken.Language
         FROM 
             Spoken
         JOIN 
             Country 
         ON Spoken.Country = Country.code
         WHERE 
-            Percentage IS NOT NULL AND Language = '{language}'
+            Percentage IS NOT NULL AND Language LIKE %s
         ORDER BY 
             speakers DESC
-        """
-    return query
+    """
+    parameters = ('%' + language + '%',)
+    return query, parameters

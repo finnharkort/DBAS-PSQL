@@ -1,0 +1,3 @@
+paramterization protects against sql injections by separating query and input data. 
+the query with placeholder %s is sent to the database, 
+it finds whatever we are searching for and combines it later with the pure data in place of the %s
