@@ -298,17 +298,19 @@ def injection_test():
     display_query_results(select_query, "", "")
     usersearch = input("Input mountain: ")
     # dangerous usersearch: '; DROP TABLE fines; --
+    #query = "SELECT * FROM mountain WHERE name LIKE '%" + usersearch + "%'"
     query = "SELECT * FROM mountain WHERE name LIKE %s"
+
     parameters = ('%' + usersearch + '%',)
     print("Actual query:", query)
     cur.execute(query, parameters)
-    #conn.commit()
+    conn.commit()
 
 def create_hej():
     query = "CREATE TABLE hej (Name VARCHAR(4))"
     cur.execute(query)
     select_query = "SELECT * FROM hej"
-    display_query_results("", select_query, "")
+    display_query_results(select_query, "", "")
     conn.commit()
 
 ######################################
@@ -338,6 +340,8 @@ def menu():
         case 4: # displays all deserts
             display_query_results(get_all_deserts_query(), "", f"Displaying all deserts and the provinces they span: ")
         case 5: 
+            injection_test()
+        case 6:
             create_hej()
         case 0:
             exit()

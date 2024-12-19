@@ -1,0 +1,8 @@
+SELECT 
+    Favourite_Candy,
+    AVG(B.total_cost) AS average
+FROM 
+    B 
+JOIN 
+    Elf ON B.Elf_name = Elf.Elf_name 
+GROUP BY Favourite_Candy;

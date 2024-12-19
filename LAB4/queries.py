@@ -68,10 +68,10 @@ def get_all_airports_query(code):
         ON 
             a.Country = c.Code
         WHERE 
-            a.IATACode = %s 
+            a.IATACode LIKE %s 
             OR a.Name LIKE %s
     """
-    parameters = (code, '%' + code + '%')
+    parameters = ('%' + code + '%', '%' + code + '%')
     return query, parameters
 
 
