@@ -1,0 +1,14 @@
+CREATE VIEW UserLikes AS
+SELECT 
+    p.UserID,
+    COUNT(l.PostID) AS TotalLikes
+FROM 
+    Post p
+LEFT JOIN 
+    Likes l ON p.PostID = l.PostID
+GROUP BY 
+    p.UserID
+ORDER BY 
+    COUNT(l.PostID) DESC;
+
+SELECT * FROM UserLikes
