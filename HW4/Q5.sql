@@ -11,6 +11,7 @@ as $$
 BEGIN
     return_size := initial_investment * POWER(1 + yearly_return, number_of_years);
 END; $$;
+GRANT ALL PRIVILEGES ON PROCEDURE investment_return TO finnhb;
 
 
 DROP PROCEDURE IF EXISTS investment_return;
@@ -26,6 +27,7 @@ as $$
 BEGIN
     return_size := initial_investment * POWER(1 + yearly_return, number_of_years);
 END; $$;
+GRANT ALL PRIVILEGES ON PROCEDURE investment_return TO finnhb;
 
 
 
